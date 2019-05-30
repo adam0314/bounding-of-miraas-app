@@ -6,8 +6,8 @@ extends Control
 
 const INITIAL_DICE = [
 	"6",
-	"8-",
-	"20+"
+	"-8",
+	"+20"
 	]
 	
 const INITIAL_HP : int = 5
@@ -24,6 +24,8 @@ var dice = []
 var items = []
 
 # Nodes
+var fight_manager : Control
+
 onready var hp_node = $PlayerData/PlayerHealthContainer/HBoxContainer/HpSpinBox
 
 var DICE_OBJECT_SCRIPT = preload("res://scripts/DiceObject.gd")
@@ -58,12 +60,15 @@ func gui_update_dices():
 			var d = DICE_GUI_NODE.instance()
 			d.set_nodes_and_parameters(die)
 			dice_gui_node.add_child(d)
-	elif gui_dice.size() < dice.size():
+	else:
+		# TODO : this is kinda inefficient
+		for ui_die in gui_dice:
+			ui_die.queue_free()
 		# new dice will be added
-		for ind in range(gui_dice.size(), dice.size()):
+		for die in dice:
 			print("adding die")
 			var d = DICE_GUI_NODE.instance()
-			d.set_nodes_and_parameters(dice[ind])
+			d.set_nodes_and_parameters(die)
 			dice_gui_node.add_child(d)
 			
 	# TODO: Handle deletion
@@ -73,7 +78,7 @@ func gui_update_items():
 	gui_needs_update_items = false;
 	var gui_items = item_gui_node.get_children()
 	if gui_items.size() < items.size():
-		# new dice will be added
+		# new items will be added
 		for ind in range(gui_items.size(), items.size()):
 			print("adding item")
 			var it = ITEM_GUI_NODE.instance()
@@ -87,7 +92,7 @@ func gui_update_hp():
 	hp_node.value = hp
 	pass
 	
-func add_new_die(input_string):
+func add_new_die(input_string : String):			
 	var die = DICE_OBJECT_SCRIPT.DiceObject.new()
 	die.set_values(input_string)
 	dice.append(die)
@@ -95,6 +100,14 @@ func add_new_die(input_string):
 	pass
 
 func _on_PopupDice_popup_add_new_dice(die_value):
+	if ["+6", "6", "-6"].find(die_value) >= 0:
+		if player_has_item(12):
+		# special case - convert d6 to 3d2
+			die_value = die_value.rstrip("6") + "2"
+			add_new_die(die_value)
+			add_new_die(die_value)
+			add_new_die(die_value)
+			return
 	add_new_die(die_value)
 	pass
 
@@ -102,6 +115,39 @@ func add_new_item(input_item_id):
 	var item = ITEM_OBJECT_SCRIPT.ItemObject.new()
 	item.set_values(Global.get_item_values_for_id(input_item_id))
 	items.append(item)
+	gui_needs_update_items = true
+	
+	# Special case: if it is item 12 - change all d6 to 3 d2
+	if input_item_id == 12:
+		for die in dice:
+			if die.dice_value == 6:
+				add_new_die(die.dice_sign + "2")
+				add_new_die(die.dice_sign + "2")
+				add_new_die(die.dice_sign + "2")
+				dice.erase(die)
+				gui_needs_update_dice = true
+	pass
+	
+func player_has_item(item_id) -> bool:
+	for item in items:
+		if item.item_id == item_id:
+			return true
+	return false
+
+func player_has_consumables() -> bool:
+	for item in items:
+		if item.item_type == Global.ITEM_TYPES.Consumable:
+			return true
+	return false
+
+func get_item(item_id):
+	for item in items:
+		if item.item_id == item_id:
+			return item
+	return {}
+
+func remove_item(item):
+	items.erase(item)
 	gui_needs_update_items = true
 	pass
 	

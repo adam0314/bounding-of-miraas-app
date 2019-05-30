@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/FightManager.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Enemy_UI.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://fonts/aliiewriting_dynamicfont.tres" type="DynamicFont" id=4]
+[ext_resource path="res://scripts/FightLog.gd" type="Script" id=5]
 
 [node name="Tab_Fight" type="Control"]
 anchor_right = 1.0
@@ -28,17 +30,41 @@ margin_right = 472.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 200 )
 
-[node name="EnemyRandomizeButtonContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox"]
+[node name="EnemyRandomizeButtonContainer" type="MarginContainer" parent="Mcont/Vbox/Hbox"]
 margin_right = 234.0
 margin_bottom = 200.0
 size_flags_horizontal = 3
 
-[node name="RollForEnemyButton" type="Button" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer"]
+margin_right = 234.0
+margin_bottom = 200.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 98.0
+size_flags_vertical = 3
+
+[node name="RollForEnemyButton" type="Button" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer"]
 margin_left = 75.0
-margin_top = 90.0
+margin_top = 39.0
 margin_right = 159.0
-margin_bottom = 110.0
+margin_bottom = 59.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 text = "losuj wroga"
+
+[node name="CenterContainer2" type="CenterContainer" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer"]
+margin_top = 102.0
+margin_right = 234.0
+margin_bottom = 200.0
+size_flags_vertical = 3
+
+[node name="FightButton" type="Button" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer2"]
+margin_left = 93.0
+margin_top = 39.0
+margin_right = 140.0
+margin_bottom = 59.0
+text = "walcz"
 
 [node name="EnemyDataContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox"]
 margin_left = 238.0
@@ -47,26 +73,42 @@ margin_bottom = 200.0
 size_flags_horizontal = 3
 script = ExtResource( 2 )
 
-[node name="Vbox" type="VBoxContainer" parent="Mcont/Vbox/Hbox/EnemyDataContainer"]
-margin_left = 85.0
-margin_top = 50.0
-margin_right = 149.0
-margin_bottom = 150.0
+[node name="Hbox" type="HBoxContainer" parent="Mcont/Vbox/Hbox/EnemyDataContainer"]
+margin_left = 43.0
+margin_top = 44.0
+margin_right = 191.0
+margin_bottom = 156.0
 
-[node name="EnemyTexture" type="TextureRect" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
+[node name="Vbox" type="VBoxContainer" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Hbox"]
+margin_right = 64.0
+margin_bottom = 112.0
+
+[node name="EnemyTexture" type="TextureRect" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Hbox/Vbox"]
 margin_right = 64.0
 margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
 texture = ExtResource( 3 )
 
-[node name="EnemyName" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
+[node name="EnemyName" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Hbox/Vbox"]
 margin_top = 68.0
 margin_right = 64.0
-margin_bottom = 82.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 4 )
 
-[node name="EnemyDice" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
-margin_top = 86.0
+[node name="EnemyDice" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Hbox/Vbox"]
+margin_top = 92.0
 margin_right = 64.0
-margin_bottom = 100.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 4 )
+
+[node name="EnemyAllowedDice" type="RichTextLabel" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Hbox"]
+margin_left = 68.0
+margin_right = 148.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 80, 20 )
+custom_fonts/normal_font = ExtResource( 4 )
+bbcode_enabled = true
+scroll_active = false
 
 [node name="Hbox2" type="HBoxContainer" parent="Mcont/Vbox"]
 margin_top = 204.0
@@ -75,21 +117,51 @@ margin_bottom = 684.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_vertical = 3
 
-[node name="CenterContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Mcont/Vbox/Hbox2"]
 margin_right = 234.0
 margin_bottom = 480.0
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="Mcont/Vbox/Hbox2/CenterContainer"]
-margin_left = 93.0
-margin_top = 230.0
-margin_right = 140.0
-margin_bottom = 250.0
-text = "walcz"
+[node name="CenterContainer2" type="CenterContainer" parent="Mcont/Vbox/Hbox2/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 238.0
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="Mcont/Vbox/Hbox2/VBoxContainer/CenterContainer2"]
+margin_left = 87.0
+margin_top = 109.0
+margin_right = 147.0
+margin_bottom = 129.0
+rect_min_size = Vector2( 60, 20 )
+select_mode = 1
+auto_height = true
+
+[node name="CenterContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox2/VBoxContainer"]
+margin_top = 242.0
+margin_right = 234.0
+margin_bottom = 480.0
+size_flags_vertical = 3
+
+[node name="UseItemButton" type="Button" parent="Mcont/Vbox/Hbox2/VBoxContainer/CenterContainer"]
+margin_left = 59.0
+margin_top = 109.0
+margin_right = 175.0
+margin_bottom = 129.0
+text = "uzyj przedmiotu"
 
 [node name="PanelContainer" type="PanelContainer" parent="Mcont/Vbox/Hbox2"]
 margin_left = 238.0
 margin_right = 472.0
 margin_bottom = 480.0
 size_flags_horizontal = 3
-[connection signal="pressed" from="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/RollForEnemyButton" to="." method="_on_RollForEnemyButton_pressed"]
+
+[node name="FightLog" type="RichTextLabel" parent="Mcont/Vbox/Hbox2/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 227.0
+margin_bottom = 473.0
+custom_fonts/normal_font = ExtResource( 4 )
+bbcode_enabled = true
+script = ExtResource( 5 )
+[connection signal="pressed" from="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer/RollForEnemyButton" to="." method="_on_RollForEnemyButton_pressed"]
+[connection signal="pressed" from="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer2/FightButton" to="." method="_on_FightButton_pressed"]

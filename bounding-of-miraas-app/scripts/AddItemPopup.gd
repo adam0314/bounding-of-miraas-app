@@ -8,7 +8,6 @@ onready var ui_option_button : OptionButton = $MarginContainer/OptionButton
 func _ready():
 	self.connect("popup_add_new_item", player_manager, "_on_PopupItem_popup_add_new_item")
 	popup_layer = get_popup_layer()
-	register_text_enter($MarginContainer/LineEdit)
 	pass
 
 func _on_ButtonAddItem_pressed():

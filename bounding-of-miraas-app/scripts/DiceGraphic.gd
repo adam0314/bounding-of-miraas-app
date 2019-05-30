@@ -13,5 +13,5 @@ func set_nodes_and_parameters(input_dice_object):
 	label_node = $Label
 	dice_object = input_dice_object
 	dice_texture_node.modulate = Global.get_color_for_sign(dice_object.dice_sign_enum)
-	label_node.text = str(dice_object.dice_value) + dice_object.dice_sign
+	label_node.text = input_dice_object.to_string()
 	pass

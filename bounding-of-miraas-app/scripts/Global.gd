@@ -8,7 +8,8 @@ enum DICE_SIGNS {
 	
 enum ITEM_TYPES {
 	Passive,
-	Consumable
+	Consumable,
+	Dice
 	}
 	
 const COLOR_ORANGE = Color(255, 165, 0, 1)
@@ -24,6 +25,15 @@ func get_color_for_sign(signn) -> Color:
 		DICE_SIGNS.Negative:
 			return COLOR_BLUE
 	pass
+
+func get_bb_code_for_sign(value, signn) -> String:
+	match signn:
+		DICE_SIGNS.Positive:
+			return "[color=#FFA500]" + str(value) + "[/color] "
+		DICE_SIGNS.Neutral:
+			return "[color=#808080]" + str(value) + "[/color] "
+		DICE_SIGNS.Negative:
+			return "[color=#0000FF]" + str(value) + "[/color] "
 	
 const ITEMS_LIST = [
 [10, ITEM_TYPES.Passive, "parzysty wynik +1"],
@@ -35,7 +45,9 @@ const ITEMS_LIST = [
 [16, ITEM_TYPES.Consumable, "wynik * -1"],
 [17, ITEM_TYPES.Consumable, "sumuj kosci i rzuc jedna"],
 [18, ITEM_TYPES.Consumable, "nie tracisz hp przy przegraniu"],
-[19, ITEM_TYPES.Consumable, "wytrych"]
+[19, ITEM_TYPES.Passive, "moneta za wygranie walki"],
+[20, ITEM_TYPES.Consumable, "wytrych"],
+[21, ITEM_TYPES.Consumable, "+1 HP"]
 ]
 
 func get_item_values_for_id(item_id : int) -> Array:
@@ -56,35 +68,35 @@ const ENEMIES_LIST = [
 {
 	"id": 1,
 	"name": "enemy id 1",
-	"dice": ["20", "3-"],
+	"dice": ["20", "-3"],
 	"type": DICE_SIGNS.Neutral,
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative]
 	},
 {
 	"id": 2, 
 	"name": "enemy id 2", 
-	"dice": ["6", "6", "3+", "3+"], 
+	"dice": ["6", "6", "+3", "+3"], 
 	"type": DICE_SIGNS.Neutral, 
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive]
 	},
 {
 	"id": 3,
 	"name": "enemy id 3",
-	"dice": ["7-"],
-	"type": DICE_SIGNS.Neutral,
+	"dice": ["-7"],
+	"type": DICE_SIGNS.Negative,
 	"allowed_dice": [DICE_SIGNS.Negative]
 	},
 {
 	"id": 4,
 	"name": "enemy id 4",
-	"dice": ["3", "3", "3", "10-", "10-"],
+	"dice": ["3", "3", "3", "-10", "-10"],
 	"type": DICE_SIGNS.Negative,
 	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
 	},
 {
 	"id": 5,
 	"name": "enemy id 5",
-	"dice": ["6+", "6+"],
+	"dice": ["+6", "+6"],
 	"type": DICE_SIGNS.Positive,
 	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
 	},

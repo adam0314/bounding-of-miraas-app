@@ -50,7 +50,7 @@ margin_right = 139.0
 margin_bottom = 26.0
 max_length = 4
 context_menu_enabled = false
-placeholder_text = "podaj wartosc i znak"
+placeholder_text = "podaj znak i wartosc"
 
 [node name="PopupItem" type="AcceptDialog" parent="CanvasLayer/PopupPanel"]
 visible = true
