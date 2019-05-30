@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/FightManager.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Enemy_UI.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[node name="Tab_Fight" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 1 )
+
+[node name="Mcont" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Vbox" type="VBoxContainer" parent="Mcont"]
+margin_right = 472.0
+margin_bottom = 684.0
+
+[node name="Hbox" type="HBoxContainer" parent="Mcont/Vbox"]
+margin_right = 472.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+
+[node name="EnemyRandomizeButtonContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox"]
+margin_right = 234.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+
+[node name="RollForEnemyButton" type="Button" parent="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer"]
+margin_left = 75.0
+margin_top = 90.0
+margin_right = 159.0
+margin_bottom = 110.0
+text = "losuj wroga"
+
+[node name="EnemyDataContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox"]
+margin_left = 238.0
+margin_right = 472.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+
+[node name="Vbox" type="VBoxContainer" parent="Mcont/Vbox/Hbox/EnemyDataContainer"]
+margin_left = 85.0
+margin_top = 50.0
+margin_right = 149.0
+margin_bottom = 150.0
+
+[node name="EnemyTexture" type="TextureRect" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
+margin_right = 64.0
+margin_bottom = 64.0
+texture = ExtResource( 3 )
+
+[node name="EnemyName" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
+margin_top = 68.0
+margin_right = 64.0
+margin_bottom = 82.0
+
+[node name="EnemyDice" type="Label" parent="Mcont/Vbox/Hbox/EnemyDataContainer/Vbox"]
+margin_top = 86.0
+margin_right = 64.0
+margin_bottom = 100.0
+
+[node name="Hbox2" type="HBoxContainer" parent="Mcont/Vbox"]
+margin_top = 204.0
+margin_right = 472.0
+margin_bottom = 684.0
+rect_min_size = Vector2( 0, 200 )
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="Mcont/Vbox/Hbox2"]
+margin_right = 234.0
+margin_bottom = 480.0
+size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="Mcont/Vbox/Hbox2/CenterContainer"]
+margin_left = 93.0
+margin_top = 230.0
+margin_right = 140.0
+margin_bottom = 250.0
+text = "walcz"
+
+[node name="PanelContainer" type="PanelContainer" parent="Mcont/Vbox/Hbox2"]
+margin_left = 238.0
+margin_right = 472.0
+margin_bottom = 480.0
+size_flags_horizontal = 3
+[connection signal="pressed" from="Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/RollForEnemyButton" to="." method="_on_RollForEnemyButton_pressed"]

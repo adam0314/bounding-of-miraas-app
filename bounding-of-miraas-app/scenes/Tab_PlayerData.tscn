@@ -28,7 +28,6 @@ margin_right = 4.0
 margin_bottom = 32.0
 
 [node name="PopupDice" type="AcceptDialog" parent="CanvasLayer/PopupPanel"]
-visible = true
 margin_left = 159.0
 margin_top = 182.0
 margin_right = 314.0
@@ -72,12 +71,10 @@ margin_top = 8.0
 margin_right = -8.0
 margin_bottom = 34.0
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/PopupPanel/PopupItem/MarginContainer"]
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/PopupPanel/PopupItem/MarginContainer"]
 margin_right = 139.0
 margin_bottom = 26.0
-max_length = 3
-context_menu_enabled = false
-placeholder_text = "podaj id"
+clip_text = true
 
 [node name="PlayerData" type="VBoxContainer" parent="."]
 anchor_right = 1.0
