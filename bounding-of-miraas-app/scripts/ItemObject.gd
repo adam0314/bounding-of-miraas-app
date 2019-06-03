@@ -1,10 +1,17 @@
 class ItemObject:
 	
-	var item_id : int
-	var item_type : int
-	var item_effect_description : String
+	var id : int
+	var name : String
+	var type : int
+	var effect : String
+	var dice : Array
 	
-	func set_values(input_array):
-		item_id = input_array[0]
-		item_type = input_array[1]
-		item_effect_description = input_array[2]
+	func set_values(input_val):
+		id = input_val["id"]
+		name = input_val["name"]
+		type = input_val["type"]
+		if type != Global.ITEM_TYPES.Dice:
+			effect = input_val["effect"]
+		else:
+			effect = PoolStringArray(input_val["dice"]).join(" ")
+			dice = input_val["dice"]

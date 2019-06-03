@@ -28,6 +28,10 @@ Global="*res://scripts/Global.gd"
 window/size/width=480
 window/size/height=720
 
+[locale]
+
+translations=PoolStringArray( "res://translations/translations.en_US.translation", "res://translations/translations.pl_PL.translation" )
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

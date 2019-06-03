@@ -11,13 +11,20 @@ var player_throw_sum : int
 
 # Nodes
 var player_manager : Control
+var enemy_manager : Node
 const ENEMY_OBJECT_SCRIPT = preload("res://scripts/EnemyObject.gd")
 onready var ui_enemy_container = $Mcont/Vbox/Hbox/EnemyDataContainer
 onready var ui_fight_log : RichTextLabel = $Mcont/Vbox/Hbox2/PanelContainer/FightLog
 onready var ui_item_list : ItemList = $Mcont/Vbox/Hbox2/VBoxContainer/CenterContainer2/ItemList
 onready var ui_fight_button : Button = $Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer2/FightButton
+onready var enemy_option_button : OptionButton = find_node("EnemyName")
 
 func _ready():
+	pass
+
+func setup_enemies_to_button():
+	for id in enemy_manager.get_enemies_id():
+		enemy_option_button.add_item(str(id))
 	pass
 
 func _process(delta):
@@ -26,13 +33,8 @@ func _process(delta):
 		ui_enemy_container.ui_update_enemy(current_enemy)
 	pass
 	
-func roll_and_create_enemy():
-	var available_enemies_count : int = Global.ENEMIES_LIST.size()
-	var random_id = randi() % available_enemies_count
-	var enemy_data = Global.get_enemy_for_id(random_id)
-	
-	current_enemy = ENEMY_OBJECT_SCRIPT.EnemyObject.new()
-	current_enemy.set_values(enemy_data)
+func update_enemy(id):
+	current_enemy = enemy_manager.enemies[id]
 	ui_need_update_enemy = true
 	pass
 
@@ -90,7 +92,7 @@ func fight():
 	# Use consumables if needed
 	# Consumable #17 has to re_roll player throws
 	
-	update_consumable_items()
+	gui_update_consumable_items()
 	if player_manager.player_has_consumables():
 		ui_fight_log.print_line("Wybierz uzywki z listy")
 		yield($Mcont/Vbox/Hbox2/VBoxContainer/CenterContainer/UseItemButton, "pressed")
@@ -106,8 +108,11 @@ func fight():
 			if contains_item(chosen_consumables, 16):
 				# value of sum * -1
 				apply_item_16()
+			for item in chosen_consumables:
+				player_manager.remove_item(item)
 		else:
 			ui_fight_log.print_line("Nie wybrano zadnej uzywki")
+		
 	
 	# Get outcome and use passives after fight (19)
 	
@@ -132,7 +137,7 @@ func fight():
 
 func contains_item(items, item_id) -> bool:
 	for item in items:
-		if item.item_id == item_id:
+		if item.id == item_id:
 			return true
 	return false
 
@@ -142,12 +147,12 @@ func get_throw_sum(throws) -> int:
 		sum += t["value"]
 	return sum
 
-func update_consumable_items():
+func gui_update_consumable_items():
 	ui_item_list.clear()
 	for item in player_manager.items:
-		if item.item_type == Global.ITEM_TYPES.Consumable:
+		if item.type == Global.ITEM_TYPES.Consumable:
 			print("add consumable")
-			ui_item_list.add_item(str(item.item_id))
+			ui_item_list.add_item(str(item.id))
 	pass
 
 func get_selected_consumable_items() -> Array:
@@ -221,10 +226,20 @@ func calculate_fight_outcome(enemy_throw_sum):
 		return player_throw_sum >= enemy_throw_sum
 	pass
 
-func _on_RollForEnemyButton_pressed():
-	roll_and_create_enemy()
-	pass
-
 func _on_FightButton_pressed():
 	fight()
+	pass # Replace with function body.
+
+
+func _on_ButtonBackToPlayer_pressed():
+	get_parent().switch_tabs(player_manager.this_player_tab_id)
+	pass # Replace with function body.
+
+
+func _on_ButtonEndTurn_pressed():
+	get_parent().switch_tabs(player_manager.next_player_tab_id)
+	pass # Replace with function body.
+
+func _on_EnemyName_item_selected(ID):
+	update_enemy(ID)
 	pass # Replace with function body.

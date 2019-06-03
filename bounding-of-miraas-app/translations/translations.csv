@@ -1,0 +1,44 @@
+id,pl_PL,en_US
+BTN_START,Start,Start
+LBL_LIFE,Życie,Życie
+LBL_DICE,Kości,Dice
+LBL_ITEMS,Przedmioty,Przedmioty
+BTN_ADD_NEW_DIE,Dodaj nową,Dodaj nową
+BTN_ADD_NEW_ITEM,Dodaj nowy,Dodaj nowy
+LBL_PLAYER1,Smutny gracz,Smutny gracz
+LBL_PLAYER2,Wesoły gracz,Wesoły gracz
+LBL_GHOST1,Smutny duch,Smutny duch
+LBL_GHOST2,Wesoły duch,Wesoły duch
+BTN_FIGHT,Walcz!,Walcz!
+BTN_USE_ITEM,Użyj przedmiotu!,Użyj przedmiotu!
+ITM_DIE_00,Drobniaki,Drobniaki
+ITM_DIE_01,Ying Yang,Ying Yang
+ITM_DIE_02,Trójkąt,Trójkąt
+ITM_DIE_03,RPG 101,RPG 101
+ITM_DIE_04,Jednoręki bandyta,Jednoręki bandyta
+ITM_DIE_05,Szczęście,Szczęście
+ITM_DIE_06,Pech,Pech
+ITM_DIE_07,Piwko,Piwko
+ITM_DIE_08,Kasztan,Kasztan
+ITM_DIE_09,Ściąga,Ściąga
+ITM_EFF_10,Kupione lajki,Kupione lajki
+ITM_EFF_11,Pozytywna reforma,Pozytywna reforma
+ITM_EFF_12,W kupie siła,W kupie siła
+ITM_EFF_13,Loteria,Loteria
+ITM_EFF_14,Sztuczka z monetą,Sztuczka z monetą
+ITM_ACT_15,Jesteś zwycięzcą,Jesteś zwycięzcą
+ITM_ACT_16,Punkt widzenia,Punkt widzenia
+ITM_ACT_17,All in,All in
+ITM_ACT_18,Dużo promili,Dużo promili
+ITM_EFF_19,500+,500+
+ITM_ACT_20,Wytrych,Wytrych
+ITM_ACT_21,Plaster,Plaster
+ENM_00,Moneciarz,Moneciarz
+ENM_01,Krzywooki,Krzywooki
+ENM_02,Błyskotek,Błyskotek
+ENM_03,Deszczowiec,Deszczowiec
+ENM_04,Taplacz,Taplacz
+ENM_05,Złotoskrzydły,Złotoskrzydły
+ENM_06,Czteroskrzydły,Czteroskrzydły
+ENM_07,Kolekcjoner,Kolekcjoner
+BOS_00,Władca much,Władca much

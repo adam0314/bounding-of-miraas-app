@@ -14,15 +14,14 @@ func _on_ButtonAddItem_pressed():
 	if popup_layer == null:
 		popup_layer = get_popup_layer()
 	popup_layer.visible = true
-	add_items_to_button_if_needed()
+	clear_and_add_items_to_button()
 	popup()
 	pass # Replace with function body.
 
-func add_items_to_button_if_needed():
-	if ui_option_button.get_item_count() == Global.ITEMS_LIST.size(): #already added
-		return
-	for item in Global.ITEMS_LIST:
-		ui_option_button.add_item(str(item[0]) + " " + item[2], item[0])
+func clear_and_add_items_to_button():
+	ui_option_button.clear()
+	for item in player_manager.item_manager.available_items:
+		ui_option_button.add_item(str(item["id"]) + " " + item["name"], item["id"])
 	pass
 
 func get_popup_layer():
