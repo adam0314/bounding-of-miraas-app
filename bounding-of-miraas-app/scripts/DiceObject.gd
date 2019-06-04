@@ -3,6 +3,7 @@ class DiceObject:
 	var dice_value : int
 	var dice_sign_enum : int
 	var dice_sign : String
+	var item_id : int = -1
 	
 	func set_values(input_str : String):
 		if input_str.begins_with("+"):
@@ -17,6 +18,10 @@ class DiceObject:
 			dice_value = int(input_str)
 			dice_sign_enum = Global.DICE_SIGNS.Neutral
 			dice_sign = ""
+		pass
+	
+	func set_item_id(id):
+		item_id = id
 		pass
 		
 	func to_string() -> String:

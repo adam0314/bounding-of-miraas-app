@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://textures/background.png" type="Texture" id=1]
-[ext_resource path="res://scripts/MainManager.gd" type="Script" id=2]
-[ext_resource path="res://scenes/Tab_PlayerData.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Tab_Fight.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=5]
-[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=6]
-[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=7]
+[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=2]
+[ext_resource path="res://scripts/ui/buttons/PauseButton.gd" type="Script" id=3]
+[ext_resource path="res://scripts/MainManager.gd" type="Script" id=4]
+[ext_resource path="res://scenes/Tab_PlayerData.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Tab_Fight.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=7]
+[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=8]
+[ext_resource path="res://scripts/FightManager.gd" type="Script" id=9]
 
 [node name="bounding-of-miraas-app" type="Node2D"]
 scale = Vector2( 7.56, 1.01088 )
@@ -29,39 +31,16 @@ expand = true
 
 [node name="MainLayer" type="CanvasLayer" parent="."]
 
-[node name="MarginContainer" type="MarginContainer" parent="MainLayer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -49.0
-rect_scale = Vector2( 1.00106, 0.983702 )
-
-[node name="MainTabContainer" type="TabContainer" parent="MainLayer/MarginContainer"]
-margin_right = 480.0
-margin_bottom = 671.0
-tab_align = 0
-tabs_visible = false
-script = ExtResource( 2 )
-
-[node name="Gracz1" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 3 )]
-margin_top = 8.0
-
-[node name="Gracz2" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 3 )]
-visible = false
-margin_top = 8.0
-
-[node name="Walka1" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 4 )]
-visible = false
-margin_top = 8.0
-
-[node name="Walka2" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 4 )]
-visible = false
-margin_top = 8.0
-
 [node name="PanelTimer" type="Panel" parent="MainLayer"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -60.0
+margin_top = -720.0
+margin_bottom = -660.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainLayer/PanelTimer"]
 anchor_right = 1.0
@@ -69,43 +48,97 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="Label" type="Label" parent="MainLayer/PanelTimer/HBoxContainer"]
-margin_left = 127.0
+margin_left = 101.0
 margin_top = 23.0
-margin_right = 288.0
+margin_right = 262.0
 margin_bottom = 37.0
 text = "Zwiekszenie sily wrogow:"
 
 [node name="LabelTimer" type="Label" parent="MainLayer/PanelTimer/HBoxContainer"]
-margin_left = 292.0
+margin_left = 266.0
 margin_top = 23.0
-margin_right = 332.0
+margin_right = 306.0
 margin_bottom = 37.0
 rect_min_size = Vector2( 40, 0 )
 align = 1
 
 [node name="EnemyTimer" type="Timer" parent="MainLayer/PanelTimer/HBoxContainer/LabelTimer"]
-script = ExtResource( 5 )
+script = ExtResource( 2 )
 
 [node name="LabelEnemyPower" type="Label" parent="MainLayer/PanelTimer/HBoxContainer"]
-margin_left = 336.0
+margin_left = 310.0
 margin_top = 23.0
-margin_right = 352.0
+margin_right = 326.0
 margin_bottom = 37.0
 text = "+0"
 
-[node name="Camera2D" type="Camera2D" parent="MainLayer"]
-scale = Vector2( 7.56, 1.01088 )
-anchor_mode = 0
+[node name="PauseButton" type="Button" parent="MainLayer/PanelTimer/HBoxContainer"]
+margin_left = 330.0
+margin_top = 20.0
+margin_right = 379.0
+margin_bottom = 40.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "pauza"
+script = ExtResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="MainLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 60.0
+margin_bottom = 11.0
+rect_scale = Vector2( 1.00106, 0.983702 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MainTabContainer" type="TabContainer" parent="MainLayer/MarginContainer"]
+margin_right = 480.0
+margin_bottom = 671.0
+tab_align = 0
+tabs_visible = false
+script = ExtResource( 4 )
+
+[node name="Player" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 5 )]
+margin_top = 8.0
+
+[node name="FightBase" parent="MainLayer/MarginContainer/MainTabContainer" instance=ExtResource( 6 )]
+visible = false
+margin_top = 8.0
+
+[node name="FightApplyItems" type="Control" parent="MainLayer/MarginContainer/MainTabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="FightResult" type="Control" parent="MainLayer/MarginContainer/MainTabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = -4.0
+margin_bottom = -4.0
 
 [node name="LogicNodesContainer" type="Node" parent="."]
 
 [node name="EnemyManager" type="Node" parent="LogicNodesContainer" groups=[
 "enemy_manager",
 ]]
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="ItemManager" type="Node" parent="LogicNodesContainer" groups=[
 "item_manager",
 ]]
-script = ExtResource( 7 )
+script = ExtResource( 8 )
+
+[node name="FightManager" type="Node" parent="LogicNodesContainer" groups=[
+"fight_manager",
+]]
+script = ExtResource( 9 )
 [connection signal="minute_has_passed" from="MainLayer/PanelTimer/HBoxContainer/LabelTimer/EnemyTimer" to="LogicNodesContainer/EnemyManager" method="_on_EnemyTimer_minute_has_passed"]
+[connection signal="pressed" from="MainLayer/PanelTimer/HBoxContainer/PauseButton" to="MainLayer/PanelTimer/HBoxContainer/PauseButton" method="_on_PauseButton_pressed"]

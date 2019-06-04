@@ -2,10 +2,10 @@ extends AcceptDialog
 
 var popup_layer
 signal popup_add_new_dice(die_value)
-onready var player_manager = $"../../.."
+onready var player_ui_node = $"../../.."
 
 func _ready():
-	self.connect("popup_add_new_dice", player_manager, "_on_PopupDice_popup_add_new_dice")
+	self.connect("popup_add_new_dice", player_ui_node, "_on_PopupDice_popup_add_new_dice")
 	popup_layer = get_popup_layer()
 	register_text_enter($MarginContainer/LineEdit)
 	pass

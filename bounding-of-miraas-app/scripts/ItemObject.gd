@@ -15,3 +15,6 @@ class ItemObject:
 		else:
 			effect = PoolStringArray(input_val["dice"]).join(" ")
 			dice = input_val["dice"]
+	
+	func to_string() -> String:
+		return name

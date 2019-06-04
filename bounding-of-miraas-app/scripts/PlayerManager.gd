@@ -1,196 +1,124 @@
-extends Control
-
-# Main player data control manager
-
-# Constants
-
-const INITIAL_DICE = [
-	"6",
-	"6",
-	"6"
-	]
+class PlayerManager:
 	
-const INITIAL_HP : int = 5
+	const INITIAL_DICE = [
+		"6",
+		"6",
+		"6"
+		]
+		
+	const INITIAL_HP : int = 5
 	
-# Control vars
-
-var gui_needs_update_dice = false
-var gui_needs_update_items = false
-
-var this_player_tab_id : int
-var next_player_tab_id : int
-var fight_tab_id : int
-
-# Stats
-
-var hp : int # TODO maybe change it to float
-var dice = []
-var items = []
-
-# Nodes
-var fight_manager : Control
-var item_manager : Node
-
-onready var hp_node = $PlayerData/PlayerHealthContainer/HBoxContainer/HpSpinBox
-
-var DICE_OBJECT_SCRIPT = preload("res://scripts/DiceObject.gd")
-var DICE_GUI_NODE = preload("res://scenes/DiceGraphic.tscn")
-onready var dice_gui_node = $PlayerData/PlayerDicesContainer/ScrollContainer/DirectDiceContainer
-
-var ITEM_GUI_NODE = preload("res://scenes/ItemGraphic.tscn")
-onready var item_gui_node = $PlayerData/PlayerItemsContainer/ScrollContainer/DirectItemContainer
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	hp = INITIAL_HP
-	gui_update_hp()
-	for die in INITIAL_DICE:
-		add_new_die(die)
-	pass # Replace with function body
+	var player_name : String
 	
-func _process(delta):
-	if gui_needs_update_dice:
-		gui_update_dices()
-	if gui_needs_update_items:
-		gui_update_items()
-	pass
+	var player_ui_node : Control
+	var next_player_manager
 	
-func gui_update_dices():
-	gui_needs_update_dice = false;
-	var gui_dice = dice_gui_node.get_children()
-	if gui_dice.size() == 0:
-		# Special case on initialization
-		for die in dice:
-			var d = DICE_GUI_NODE.instance()
-			d.set_nodes_and_parameters(die)
-			dice_gui_node.add_child(d)
-	else:
-		# TODO : this is kinda inefficient
-		for ui_die in gui_dice:
-			ui_die.queue_free()
-		# new dice will be added
-		for die in dice:
-			print("gui adding die")
-			var d = DICE_GUI_NODE.instance()
-			d.set_nodes_and_parameters(die)
-			dice_gui_node.add_child(d)
-			
-	# TODO: Handle deletion
-	pass
+	var hp : int # TODO maybe change it to float
+	var dice = []
+	var items = []
 	
-func gui_update_items():
-	gui_needs_update_items = false;
-	var gui_items = item_gui_node.get_children()
-	# delete ones if necessary
-	for gui_item in gui_items:
-		if items.find(gui_item.item_object) == -1: # gui has item, player does not
-			print("gui delete item")
-			gui_item.queue_free
-	# add new ones if necessary
-	for item in items:
-		if not gui_has_item(item):
-		# new item will be added
-			print("gui adding item")
-			var it = ITEM_GUI_NODE.instance()
-			it.set_nodes_and_parameters(item)
-			item_gui_node.add_child(it)
-			
-	# TODO: Handle deletion
-	pass
+	# Nodes
+	var fight_manager : Node
+	var item_manager : Node
 	
-func gui_has_item(item) -> bool:
-	var gui_items = item_gui_node.get_children()
-	for gui_item in gui_items:
-		if gui_item.item_object == item:
-			return true
-	return false
-
-func gui_update_hp():
-	hp_node.value = hp
-	pass
 	
-func add_new_die(input_string : String):
-	var die = DICE_OBJECT_SCRIPT.DiceObject.new()
-	die.set_values(input_string)
-	dice.append(die)
-	gui_needs_update_dice = true
-	pass
-
-func _on_PopupDice_popup_add_new_dice(die_value):
-	if ["+6", "6", "-6"].find(die_value) >= 0:
-		if player_has_item(12):
-		# special case - convert d6 to 3d2
-			die_value = die_value.rstrip("6") + "2"
-			add_new_die(die_value)
-			add_new_die(die_value)
-			add_new_die(die_value)
-			return
-	add_new_die(die_value)
-	pass
-
-func add_new_item(input_item_id):
-	gui_needs_update_items = true
-	var item = item_manager.get_item_for_id(input_item_id)
-	items.append(item)
-	item_manager.erase_item_from_available(item)
+	var DICE_OBJECT_SCRIPT = preload("res://scripts/DiceObject.gd")
 	
-	# Special case: if it is item 12 - change all d6 to 3 d2
-	if item.id == 12:
-		var dice_to_erase = []
-		for die in dice:
-			if die.dice_value == 6:
-				add_new_die(die.dice_sign + "2")
-				add_new_die(die.dice_sign + "2")
-				add_new_die(die.dice_sign + "2")
-				dice_to_erase.append(die)
-		for die in dice_to_erase:
-			dice.erase(die)
-		gui_needs_update_dice = true
-	elif item.type == Global.ITEM_TYPES.Dice:
-		#Adding dice
-		for die in item.dice:
+	func set_initial_values(value):
+		hp = INITIAL_HP
+		player_name = value["player_name"]
+		next_player_manager = value["next_player_manager"]
+		player_ui_node = value["player_ui_node"]
+		item_manager = value["item_manager"]
+		for die in INITIAL_DICE:
 			add_new_die(die)
-	pass
+		player_ui_node.ui_needs_update_hp = true
+		pass
+		
+	func add_new_die(input_string : String, input_item_id : int = -1):
+		var die = DICE_OBJECT_SCRIPT.DiceObject.new()
+		die.set_values(input_string)
+		if input_item_id != -1: # die is added from an item
+			die.set_item_id(input_item_id)
+		dice.append(die)
+		player_ui_node.ui_needs_update_dice = true
+		pass
 	
-func player_has_item(item_id) -> bool:
-	for item in items:
-		if item.id == item_id:
-			return true
-	return false
-
-func player_has_consumables() -> bool:
-	for item in items:
-		if item.type == Global.ITEM_TYPES.Consumable:
-			return true
-	return false
-
-func get_item(item_id):
-	for item in items:
-		if item.id == item_id:
-			return item
-	return {}
-
-func remove_item(item):
-	# Return the item to available pool
-	item_manager.add_to_available_items(item)
-	items.erase(item)
-	gui_needs_update_items = true
-	pass
+	func eval_and_add_new_die(die_value):
+		if ["+6", "6", "-6"].find(die_value) >= 0:
+			if player_has_item(12):
+			# special case - convert d6 to 3d2
+				die_value = die_value.rstrip("6") + "2"
+				add_new_die(die_value)
+				add_new_die(die_value)
+				add_new_die(die_value)
+				return
+		add_new_die(die_value)
+		pass
 	
-func _on_PopupItem_popup_add_new_item(item_id):
-	add_new_item(item_id)
-	pass
-
-func _on_HpSpinBox_value_changed(value):
-	hp = int(floor(value))
-	pass # Replace with function body.
-
-
-func _on_ButtonFightEnemy_pressed():
-	get_parent().switch_tabs(fight_tab_id)
-	pass # Replace with function body.
-
-
-func _on_ButtonEndTurn_pressed():
-	get_parent().switch_tabs(next_player_tab_id)
-	pass # Replace with function body.
+	func add_new_item(input_item_id):
+		player_ui_node.ui_needs_update_items = true
+		var item = item_manager.get_item_for_id(input_item_id)
+		items.append(item)
+		item_manager.erase_item_from_available(item)
+		
+		# Special case: if it is item 12 - change all d6 to 3 d2
+		if item.id == 12:
+			var dice_to_erase = []
+			for die in dice:
+				if die.dice_value == 6:
+					add_new_die(die.dice_sign + "2", die.item_id)
+					add_new_die(die.dice_sign + "2", die.item_id)
+					add_new_die(die.dice_sign + "2", die.item_id)
+					dice_to_erase.append(die)
+			for die in dice_to_erase:
+				dice.erase(die)
+			player_ui_node.ui_needs_update_dice = true
+		elif item.type == Global.ITEM_TYPES.Dice:
+			#Adding dice
+			for die_data in item.dice:
+				add_new_die(die_data, item.id)
+		pass
+		
+	func player_has_item(item_id) -> bool:
+		for item in items:
+			if item.id == item_id:
+				return true
+		return false
+	
+	func player_has_consumables() -> bool:
+		for item in items:
+			if item.type == Global.ITEM_TYPES.Consumable:
+				return true
+		return false
+	
+	func get_item(item_id):
+		for item in items:
+			if item.id == item_id:
+				return item
+		return {}
+	
+	func get_item_indexes() -> Array:
+		var arr = []
+		for item in items:
+			arr.append(item.id)
+		return arr
+	
+	func remove_item_by_id(item_id):
+		remove_item(get_item(item_id))
+		pass
+	
+	func remove_item(item):
+		# Return the item to available pool
+		item_manager.add_to_available_items(item)
+		items.erase(item)
+		if item.type == Global.ITEM_TYPES.Dice: # Need to delete dice as well
+			var dice_to_erase = []
+			for die in dice:
+				if die.item_id == item.id: # die comes from that item
+					dice_to_erase.append(die)
+					player_ui_node.ui_needs_update_dice = true
+			for die in dice_to_erase:
+				dice.erase(die)
+		player_ui_node.ui_needs_update_items = true
+		pass

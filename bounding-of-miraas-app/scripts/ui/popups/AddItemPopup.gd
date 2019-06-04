@@ -2,11 +2,11 @@ extends AcceptDialog
 
 var popup_layer
 signal popup_add_new_item(item_id)
-onready var player_manager = $"../../.."
+onready var player_ui_node = $"../../.."
 onready var ui_option_button : OptionButton = $MarginContainer/OptionButton
 
 func _ready():
-	self.connect("popup_add_new_item", player_manager, "_on_PopupItem_popup_add_new_item")
+	self.connect("popup_add_new_item", player_ui_node, "_on_PopupItem_popup_add_new_item")
 	popup_layer = get_popup_layer()
 	pass
 
@@ -20,7 +20,7 @@ func _on_ButtonAddItem_pressed():
 
 func clear_and_add_items_to_button():
 	ui_option_button.clear()
-	for item in player_manager.item_manager.available_items:
+	for item in player_ui_node.current_player_manager.item_manager.available_items:
 		ui_option_button.add_item(str(item["id"]) + " " + item["name"], item["id"])
 	pass
 

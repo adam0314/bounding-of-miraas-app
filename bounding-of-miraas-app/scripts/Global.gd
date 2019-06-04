@@ -12,6 +12,8 @@ enum ITEM_TYPES {
 	Dice
 	}
 	
+const DEFAULT_TEXTURE = preload("res://icon.png")
+	
 const COLOR_ORANGE = Color(255, 165, 0, 1)
 const COLOR_BLUE = Color(0, 0, 255, 1)
 const COLOR_GRAY = Color(128, 128, 128, 1)
@@ -34,6 +36,16 @@ func get_bb_code_for_sign(value, signn) -> String:
 			return "[color=#808080]" + str(value) + "[/color] "
 		DICE_SIGNS.Negative:
 			return "[color=#0000FF]" + str(value) + "[/color] "
+
+func get_stringsign_for_sign(signn) -> String:
+	match signn:
+		DICE_SIGNS.Positive:
+			return "+"
+		DICE_SIGNS.Neutral:
+			return ""
+		DICE_SIGNS.Negative:
+			return "-"
+	pass
 	
 #const ITEMS_LIST = [
 #[10, ITEM_TYPES.Passive, "parzysty wynik +1"],
@@ -126,7 +138,7 @@ const ITEMS_LIST = [
 {
 	"id": 12,
 	"name" : "W kupie sila",
-	"effect" : "Kazda k6 => 3k2",
+	"effect" : "Kazda k6 zamieniana na 3k2",
 	"type": ITEM_TYPES.Passive
 	},
 {
@@ -195,56 +207,56 @@ func get_item_values_for_id(item_id : int) -> Array:
 const ENEMIES_LIST = [
 {
 	"id": 0,
-	"name": "enemy id 0",
+	"name": "Moneciarz",
 	"dice": ["2", "2", "2", "2", "2"],
 	"type": DICE_SIGNS.Neutral,
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive]
 	},
 {
 	"id": 1,
-	"name": "enemy id 1",
+	"name": "Krzywooki",
 	"dice": ["20", "-3"],
 	"type": DICE_SIGNS.Neutral,
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative]
 	},
 {
 	"id": 2, 
-	"name": "enemy id 2", 
+	"name": "Blyskotek", 
 	"dice": ["6", "6", "+3", "+3"], 
 	"type": DICE_SIGNS.Neutral, 
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive]
 	},
 {
 	"id": 3,
-	"name": "enemy id 3",
+	"name": "Deszczowiec",
 	"dice": ["-7"],
 	"type": DICE_SIGNS.Negative,
 	"allowed_dice": [DICE_SIGNS.Negative]
 	},
 {
 	"id": 4,
-	"name": "enemy id 4",
+	"name": "Taplacz",
 	"dice": ["3", "3", "3", "-10", "-10"],
 	"type": DICE_SIGNS.Negative,
 	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
 	},
 {
 	"id": 5,
-	"name": "enemy id 5",
+	"name": "Zlotoskrzydly",
 	"dice": ["+6", "+6"],
 	"type": DICE_SIGNS.Positive,
 	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
 	},
 {
 	"id": 6,
-	"name": "enemy id 6",
+	"name": "Czteroskrzydly",
 	"dice": ["5", "5", "5", "5"],
 	"type": DICE_SIGNS.Neutral,
 	"allowed_dice": [DICE_SIGNS.Neutral]
 	},
 {
 	"id": 7,
-	"name": "enemy id 7",
+	"name": "Kolekcjoner",
 	"dice": ["2", "3", "4", "5", "6"],
 	"type": DICE_SIGNS.Neutral,
 	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative]

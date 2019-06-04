@@ -1,6 +1,6 @@
-extends Node
+extends Control
 
-# Main fight manager
+# Base fight tab
 
 # Vars
 
@@ -13,7 +13,8 @@ var player_throw_sum : int
 var player_manager
 var enemy_manager : Node
 const ENEMY_OBJECT_SCRIPT = preload("res://scripts/EnemyObject.gd")
-onready var ui_enemy_container = $Mcont/Vbox/Hbox/EnemyDataContainer
+onready var ui_change_enemy_popup : PopupPanel = find_node("PopupChangeEnemy")
+onready var ui_enemy_container = find_node("EnemyDataContainer")
 onready var ui_fight_log : RichTextLabel = $Mcont/Vbox/Hbox2/PanelContainer/FightLog
 onready var ui_item_list : ItemList = $Mcont/Vbox/Hbox2/VBoxContainer/CenterContainer2/ItemList
 onready var ui_fight_button : Button = $Mcont/Vbox/Hbox/EnemyRandomizeButtonContainer/VBoxContainer/CenterContainer2/FightButton
@@ -22,9 +23,8 @@ onready var enemy_option_button : OptionButton = find_node("EnemyName")
 func _ready():
 	pass
 
-func setup_enemies_to_button():
-	for id in enemy_manager.get_enemies_id():
-		enemy_option_button.add_item(str(id))
+func fire_popup_change_enemy():
+	ui_change_enemy_popup.setup_everything(enemy_manager)
 	pass
 
 func _process(delta):
@@ -226,9 +226,9 @@ func calculate_fight_outcome(enemy_throw_sum):
 		return player_throw_sum >= enemy_throw_sum
 	pass
 
-func _on_FightButton_pressed():
-	fight()
-	pass # Replace with function body.
+#func _on_FightButton_pressed():
+#	fight()
+#	pass # Replace with function body.
 
 
 func _on_ButtonBackToPlayer_pressed():
@@ -242,4 +242,12 @@ func _on_ButtonEndTurn_pressed():
 
 func _on_EnemyName_item_selected(ID):
 	update_enemy(ID)
+	pass # Replace with function body.
+
+
+func _on_Pcont_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			print("clicked!")
+			fire_popup_change_enemy()
 	pass # Replace with function body.

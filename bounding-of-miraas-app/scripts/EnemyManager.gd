@@ -7,7 +7,9 @@ var enemy_power : int
 
 # consts
 
-const ENEMY_POWER_INCREMENT : int = 2
+const ENEMY_POWER_INCREMENT : int = 1
+const CHANCE_FOR_DICE_SIGN : float = 0.9
+const DIE_TO_ADD : String = "6"
 
 # nodes and scripts
 
@@ -38,10 +40,18 @@ func get_enemies_id() -> Array:
 	
 func strengthten_enemies():
 	print("buff!")
+	for enemy in enemies:
+		var die_to_add = DIE_TO_ADD
+		var use_enemy_type_for_die : bool = (randf() <= CHANCE_FOR_DICE_SIGN)
+		if use_enemy_type_for_die:
+			die_to_add = Global.get_stringsign_for_sign(enemy.enemy_type) + die_to_add
+		else:
+			var other_signs : Array = Global.DICE_SIGNS.duplicate().values()
+			other_signs.erase(enemy.enemy_type)
+			die_to_add = Global.get_stringsign_for_sign(other_signs[0] if randf() < 0.5 else other_signs[1]) + die_to_add
+		
+		enemy.add_new_die(die_to_add)
 	pass
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_EnemyTimer_minute_has_passed():
 	enemy_power += ENEMY_POWER_INCREMENT
