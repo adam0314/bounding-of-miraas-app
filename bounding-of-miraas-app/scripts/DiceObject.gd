@@ -41,8 +41,5 @@ class DiceObject:
 			return throw_value
 			
 	func throw_return_with_sign() -> Dictionary:
-		var throw_value = (randi() % dice_value) + 1
-		if dice_sign_enum == Global.DICE_SIGNS.Negative:
-			return {"value": throw_value * (-1), "sign": dice_sign_enum, "dice_val" : dice_value}
-		else:
-			return {"value": throw_value, "sign": dice_sign_enum, "dice_val" : dice_value}
+		var throw_value = throw()
+		return {"value": throw_value, "sign": dice_sign_enum, "dice_val" : dice_value}

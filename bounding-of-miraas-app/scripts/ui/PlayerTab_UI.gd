@@ -9,6 +9,7 @@ var ui_needs_update_hp : bool = false
 # Nodes
 
 onready var player_name_ui = find_node("LabelPlayerName")
+onready var player_tex = find_node("TexturePlayer")
 onready var hp_ui : SpinBox = find_node("HpSpinBox")
 onready var dice_ui : ItemList = find_node("DirectDiceContainer")
 onready var items_ui : ItemList = find_node("DirectItemContainer")
@@ -23,10 +24,15 @@ func _process(delta):
 	pass
 
 func update_all_data():
+	ui_update_player_tex()
 	ui_update_dice()
 	ui_update_hp()
 	ui_update_items()
 	ui_update_player_name()
+
+func ui_update_player_tex():
+	player_tex.texture = TextureGlobal.get_tex_for_player_id(current_player_manager.player_id)
+	pass
 
 func ui_update_player_name():
 	player_name_ui.text = current_player_manager.player_name
@@ -92,7 +98,8 @@ func _on_ButtonFightEnemy_pressed():
 
 
 func _on_ButtonEndTurn_pressed():
-	get_parent().switch_players(current_player_manager.next_player_manager)
+	get_parent().switch_players(current_player_manager,
+								current_player_manager.next_player_manager)
 	pass # Replace with function body.
 
 func _on_PopupDice_popup_add_new_dice(val):

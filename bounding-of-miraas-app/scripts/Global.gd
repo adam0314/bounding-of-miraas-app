@@ -138,7 +138,7 @@ const ITEMS_LIST = [
 {
 	"id": 12,
 	"name" : "W kupie sila",
-	"effect" : "Kazda k6 zamieniana na 3k2",
+	"effect" : "Kazdy rzut k6 zamieniany na 3k2",
 	"type": ITEM_TYPES.Passive
 	},
 {
@@ -197,11 +197,11 @@ const ITEMS_LIST = [
 	}
 ]	
 
-func get_item_values_for_id(item_id : int) -> Array:
+func get_item_values_for_id(item_id : int) -> Dictionary:
 	for item in ITEMS_LIST:
 		if item["id"] == item_id:
 			return item
-	return [] # TODO: should throw an error
+	return {} # TODO: should throw an error
 	pass
 	
 const ENEMIES_LIST = [

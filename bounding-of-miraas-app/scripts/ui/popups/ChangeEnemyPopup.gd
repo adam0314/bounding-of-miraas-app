@@ -5,7 +5,6 @@ extends PopupPanel
 # var b = "text"
 onready var fight_base_ui_node = get_node("../..")
 onready var ui_enemies : ItemList = find_node("ItemList")
-const TEX_ENEMY : Texture = preload("res://textures/enemy.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,9 +15,8 @@ func setup_everything(enemy_manager):
 		ui_enemies = find_node("ItemList")
 	ui_enemies.clear()
 	for enemy in enemy_manager.enemies:
-		ui_enemies.add_item(str(enemy.id) + ": " + enemy.name, TEX_ENEMY)
+		ui_enemies.add_item(str(enemy.id) + ": " + enemy.name, TextureGlobal.get_tex_for_enemy_id(enemy.id))
 		var idx_added = ui_enemies.get_item_count() - 1
-		ui_enemies.set_item_icon_modulate(idx_added, Global.get_color_for_sign(enemy.type))
 		ui_enemies.set_item_metadata(idx_added, enemy.id)
 	popup()
 	pass

@@ -1,13 +1,34 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/ui/PlayerTab_UI.gd" type="Script" id=1]
 [ext_resource path="res://scripts/ui/popups/AddDicePopup.gd" type="Script" id=2]
 [ext_resource path="res://scripts/ui/popups/AddItemPopup.gd" type="Script" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://textures/ui/Button.png" type="Texture" id=4]
 [ext_resource path="res://fonts/aliiewriting_dynamicfont.tres" type="DynamicFont" id=5]
-[ext_resource path="res://scripts/ui/Dice_UI.gd" type="Script" id=6]
-[ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=7]
-[ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=8]
+[ext_resource path="res://textures/ui/Player1.png" type="Texture" id=6]
+[ext_resource path="res://icon.png" type="Texture" id=7]
+[ext_resource path="res://styles/button_style.tres" type="StyleBox" id=8]
+[ext_resource path="res://textures/ui/Text.png" type="Texture" id=9]
+[ext_resource path="res://scripts/ui/Dice_UI.gd" type="Script" id=10]
+[ext_resource path="res://styles/button_style_disabled.tres" type="StyleBox" id=11]
+[ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=12]
+[ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=13]
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 4 )
+region_rect = Rect2( 48, 28, 466, 125 )
+expand_margin_left = 30.0
+expand_margin_right = 30.0
+expand_margin_top = 15.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 9 )
+region_rect = Rect2( 29, 25, 526, 339 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [node name="Tab_PlayerData" type="Control"]
 anchor_right = 1.0
@@ -26,10 +47,6 @@ visible = false
 self_modulate = Color( 1, 1, 1, 0.498039 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = 4.0
-margin_bottom = 32.0
 
 [node name="PopupDice" type="AcceptDialog" parent="CanvasLayer/PopupPanel"]
 margin_left = 159.0
@@ -84,45 +101,59 @@ clip_text = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="LabelPlayerName" type="Label" parent="PlayerData"]
+[node name="Playername" type="CenterContainer" parent="PlayerData"]
 margin_right = 472.0
-margin_bottom = 14.0
+margin_bottom = 20.0
+
+[node name="LabelPlayerName" type="Label" parent="PlayerData/Playername"]
+margin_left = 178.0
+margin_right = 293.0
+margin_bottom = 20.0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "fsdfsdfdsfsdfsd"
 align = 1
 
-[node name="PlayerIconContainer" type="CenterContainer" parent="PlayerData"]
-margin_top = 18.0
+[node name="PlayerMainCont" type="HBoxContainer" parent="PlayerData"]
+editor/display_folded = true
+margin_top = 24.0
 margin_right = 472.0
-margin_bottom = 82.0
-
-[node name="TextureRect" type="TextureRect" parent="PlayerData/PlayerIconContainer"]
-self_modulate = Color( 0, 1, 0, 1 )
-margin_left = 204.0
-margin_right = 268.0
-margin_bottom = 64.0
-texture = ExtResource( 4 )
-
-[node name="PlayerHealthContainer" type="VBoxContainer" parent="PlayerData"]
-margin_top = 86.0
-margin_right = 472.0
-margin_bottom = 150.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerHealthContainer"]
-margin_right = 472.0
-margin_bottom = 64.0
+margin_bottom = 184.0
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerHealthContainer/HBoxContainer"]
-margin_left = 146.0
-margin_right = 248.0
+[node name="PlayerIconContainer" type="CenterContainer" parent="PlayerData/PlayerMainCont"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 160.0
+
+[node name="TexturePlayer" type="TextureRect" parent="PlayerData/PlayerMainCont/PlayerIconContainer"]
+margin_right = 160.0
+margin_bottom = 160.0
+texture = ExtResource( 6 )
+
+[node name="PlayerHealthContainer" type="CenterContainer" parent="PlayerData/PlayerMainCont"]
+margin_left = 228.0
+margin_right = 408.0
+margin_bottom = 160.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerMainCont/PlayerHealthContainer"]
+margin_top = 48.0
+margin_right = 180.0
+margin_bottom = 112.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerMainCont/PlayerHealthContainer/HBoxContainer"]
+margin_right = 102.0
 margin_bottom = 64.0
 
-[node name="TextureRect" type="TextureRect" parent="PlayerData/PlayerHealthContainer/HBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="PlayerData/PlayerMainCont/PlayerHealthContainer/HBoxContainer/HBoxContainer"]
 modulate = Color( 1, 0, 0, 1 )
 margin_right = 64.0
 margin_bottom = 64.0
-texture = ExtResource( 4 )
+texture = ExtResource( 7 )
 
-[node name="Label" type="Label" parent="PlayerData/PlayerHealthContainer/HBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="PlayerData/PlayerMainCont/PlayerHealthContainer/HBoxContainer/HBoxContainer"]
 margin_left = 68.0
 margin_top = 25.0
 margin_right = 102.0
@@ -130,147 +161,234 @@ margin_bottom = 39.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "Zycie"
 
-[node name="HpSpinBox" type="SpinBox" parent="PlayerData/PlayerHealthContainer/HBoxContainer"]
-margin_left = 252.0
-margin_right = 326.0
+[node name="HpSpinBox" type="SpinBox" parent="PlayerData/PlayerMainCont/PlayerHealthContainer/HBoxContainer"]
+margin_left = 106.0
+margin_right = 180.0
 margin_bottom = 64.0
 align = 1
 
 [node name="PlayerDicesContainer" type="VBoxContainer" parent="PlayerData"]
-margin_top = 154.0
+editor/display_folded = true
+margin_top = 188.0
 margin_right = 472.0
-margin_bottom = 400.0
+margin_bottom = 410.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerDicesContainer"]
 margin_right = 472.0
 margin_bottom = 20.0
+custom_constants/separation = 22
 alignment = 1
 
 [node name="Label" type="Label" parent="PlayerData/PlayerDicesContainer/HBoxContainer"]
-margin_left = 175.0
-margin_top = 3.0
-margin_right = 209.0
-margin_bottom = 17.0
+margin_left = 164.0
+margin_right = 200.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Kosci"
 align = 1
 
 [node name="ButtonAddDice" type="Button" parent="PlayerData/PlayerDicesContainer/HBoxContainer"]
-margin_left = 213.0
-margin_right = 297.0
+margin_left = 222.0
+margin_right = 307.0
 margin_bottom = 20.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 8 )
+custom_styles/focus = ExtResource( 8 )
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "dodaj nowa"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerDicesContainer"]
+[node name="PanelC" type="PanelContainer" parent="PlayerData/PlayerDicesContainer"]
 margin_top = 24.0
-margin_right = 472.0
-margin_bottom = 246.0
-size_flags_vertical = 3
-scroll_horizontal_enabled = false
-
-[node name="DirectDiceContainer" type="ItemList" parent="PlayerData/PlayerDicesContainer/ScrollContainer"]
 margin_right = 472.0
 margin_bottom = 222.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = SubResource( 3 )
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerDicesContainer/PanelC"]
+margin_right = 472.0
+margin_bottom = 198.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 30
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerDicesContainer/PanelC/MarginContainer"]
+margin_left = 50.0
+margin_top = 30.0
+margin_right = 422.0
+margin_bottom = 168.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="DirectDiceContainer" type="ItemList" parent="PlayerData/PlayerDicesContainer/PanelC/MarginContainer/ScrollContainer"]
+margin_right = 372.0
+margin_bottom = 138.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/bg = SubResource( 2 )
 custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 max_columns = 6
 same_column_width = true
-script = ExtResource( 6 )
+script = ExtResource( 10 )
 
 [node name="PlayerItemsContainer" type="VBoxContainer" parent="PlayerData"]
-margin_top = 404.0
+editor/display_folded = true
+margin_top = 414.0
 margin_right = 472.0
-margin_bottom = 650.0
+margin_bottom = 636.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerItemsContainer"]
 margin_right = 472.0
 margin_bottom = 20.0
+custom_constants/separation = 31
 alignment = 1
 
 [node name="Label" type="Label" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 130.0
-margin_top = 3.0
-margin_right = 207.0
-margin_bottom = 17.0
-text = "Przedmioty:"
+margin_left = 106.0
+margin_right = 186.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Przedmioty"
 align = 1
 
 [node name="ButtonAddItem" type="Button" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 211.0
-margin_right = 295.0
+margin_left = 217.0
+margin_right = 299.0
 margin_bottom = 20.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 8 )
+custom_styles/focus = ExtResource( 8 )
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_disabled = Color( 0.564706, 0.564706, 0.564706, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "dodaj nowy"
 
 [node name="ButtonRemoveItem" type="Button" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 299.0
-margin_right = 342.0
+margin_left = 330.0
+margin_right = 365.0
 margin_bottom = 20.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 8 )
+custom_styles/focus = ExtResource( 8 )
+custom_styles/disabled = ExtResource( 11 )
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_disabled = Color( 0.505882, 0.505882, 0.505882, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 disabled = true
 text = "usun"
-script = ExtResource( 7 )
+script = ExtResource( 12 )
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerItemsContainer"]
+[node name="PanelC2" type="PanelContainer" parent="PlayerData/PlayerItemsContainer"]
 margin_top = 24.0
-margin_right = 472.0
-margin_bottom = 246.0
-size_flags_vertical = 3
-scroll_horizontal_enabled = false
-
-[node name="DirectItemContainer" type="ItemList" parent="PlayerData/PlayerItemsContainer/ScrollContainer"]
 margin_right = 472.0
 margin_bottom = 222.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = ExtResource( 5 )
-max_columns = 2
-same_column_width = true
-script = ExtResource( 8 )
+custom_styles/panel = SubResource( 3 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData"]
-margin_top = 654.0
+[node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerItemsContainer/PanelC2"]
 margin_right = 472.0
-margin_bottom = 684.0
+margin_bottom = 198.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 30
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer"]
+margin_left = 50.0
+margin_top = 30.0
+margin_right = 422.0
+margin_bottom = 168.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="DirectItemContainer" type="ItemList" parent="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer"]
+margin_right = 372.0
+margin_bottom = 138.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/bg = SubResource( 4 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+same_column_width = true
+script = ExtResource( 13 )
+
+[node name="NavButtonsCont" type="HBoxContainer" parent="PlayerData"]
+editor/display_folded = true
+margin_top = 640.0
+margin_right = 472.0
+margin_bottom = 670.0
 rect_min_size = Vector2( 0, 30 )
+custom_constants/separation = 18
 alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="PlayerData/HBoxContainer"]
-margin_left = 158.0
+[node name="CenterContainer" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
+margin_left = 144.0
+margin_right = 194.0
+margin_bottom = 30.0
+
+[node name="ButtonFightEnemy" type="Button" parent="PlayerData/NavButtonsCont/CenterContainer"]
+margin_top = 5.0
+margin_right = 50.0
+margin_bottom = 25.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 8 )
+custom_styles/focus = ExtResource( 8 )
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Walcz!"
+
+[node name="CenterContainer2" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
+margin_left = 212.0
 margin_right = 212.0
 margin_bottom = 30.0
 
-[node name="ButtonFightEnemy" type="Button" parent="PlayerData/HBoxContainer/CenterContainer"]
-margin_top = 5.0
-margin_right = 54.0
-margin_bottom = 25.0
-text = "Walcz!"
-
-[node name="CenterContainer2" type="CenterContainer" parent="PlayerData/HBoxContainer"]
-margin_left = 216.0
-margin_right = 216.0
+[node name="CenterContainer3" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
+margin_left = 230.0
+margin_right = 327.0
 margin_bottom = 30.0
 
-[node name="CenterContainer3" type="CenterContainer" parent="PlayerData/HBoxContainer"]
-margin_left = 220.0
-margin_right = 314.0
-margin_bottom = 30.0
-
-[node name="ButtonEndTurn" type="Button" parent="PlayerData/HBoxContainer/CenterContainer3"]
+[node name="ButtonEndTurn" type="Button" parent="PlayerData/NavButtonsCont/CenterContainer3"]
 margin_top = 5.0
-margin_right = 94.0
+margin_right = 97.0
 margin_bottom = 25.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 8 )
+custom_styles/focus = ExtResource( 8 )
+custom_styles/normal = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Zakoncz ture"
+
+[node name="DummyThiccCont" type="MarginContainer" parent="PlayerData"]
+margin_top = 674.0
+margin_right = 472.0
+margin_bottom = 684.0
+rect_min_size = Vector2( 0, 10 )
 [connection signal="confirmed" from="CanvasLayer/PopupPanel/PopupDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_PopupDice_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/PopupPanel/PopupDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_PopupDice_popup_hide"]
 [connection signal="confirmed" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_popup_hide"]
-[connection signal="value_changed" from="PlayerData/PlayerHealthContainer/HBoxContainer/HpSpinBox" to="." method="_on_HpSpinBox_value_changed"]
+[connection signal="value_changed" from="PlayerData/PlayerMainCont/PlayerHealthContainer/HBoxContainer/HpSpinBox" to="." method="_on_HpSpinBox_value_changed"]
 [connection signal="pressed" from="PlayerData/PlayerDicesContainer/HBoxContainer/ButtonAddDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_ButtonAddDice_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonAddItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_ButtonAddItem_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="." method="_on_ButtonRemoveItem_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
-[connection signal="item_selected" from="PlayerData/PlayerItemsContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_item_selected"]
-[connection signal="nothing_selected" from="PlayerData/PlayerItemsContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_nothing_selected"]
-[connection signal="pressed" from="PlayerData/HBoxContainer/CenterContainer/ButtonFightEnemy" to="." method="_on_ButtonFightEnemy_pressed"]
-[connection signal="pressed" from="PlayerData/HBoxContainer/CenterContainer3/ButtonEndTurn" to="." method="_on_ButtonEndTurn_pressed"]
+[connection signal="item_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_item_selected"]
+[connection signal="nothing_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_nothing_selected"]
+[connection signal="pressed" from="PlayerData/NavButtonsCont/CenterContainer/ButtonFightEnemy" to="." method="_on_ButtonFightEnemy_pressed"]
+[connection signal="pressed" from="PlayerData/NavButtonsCont/CenterContainer3/ButtonEndTurn" to="." method="_on_ButtonEndTurn_pressed"]
