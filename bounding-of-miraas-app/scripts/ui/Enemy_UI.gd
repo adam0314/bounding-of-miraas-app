@@ -6,8 +6,6 @@ onready var ui_enemy_type = find_node("EnemyType")
 onready var ui_enemy_name = find_node("EnemyName")
 onready var ui_dice = $"../../../..".find_node("EnemyDiceList")
 
-const TEXTURE_DICE = preload("res://textures/dice.png")
-
 func _ready():
 	pass
 	
@@ -50,7 +48,7 @@ func ui_format_enemy_type(type) -> String:
 	pass
 
 func ui_update_dice(die):
-	ui_dice.add_item(die.to_string(), TEXTURE_DICE)
+	ui_dice.add_item(die.to_string(), TextureGlobal.TEX_DICE)
 	var idx_added = ui_dice.get_item_count() - 1
 	ui_dice.set_item_icon_modulate(idx_added, Global.get_color_for_sign(die.dice_sign_enum))
 	pass

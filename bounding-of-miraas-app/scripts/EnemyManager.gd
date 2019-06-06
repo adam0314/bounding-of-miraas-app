@@ -44,12 +44,11 @@ func strengthten_enemies():
 		var die_to_add = DIE_TO_ADD
 		var use_enemy_type_for_die : bool = (randf() <= CHANCE_FOR_DICE_SIGN)
 		if use_enemy_type_for_die:
-			die_to_add = Global.get_stringsign_for_sign(enemy.enemy_type) + die_to_add
+			die_to_add = Global.get_stringsign_for_sign(enemy.type) + die_to_add
 		else:
 			var other_signs : Array = Global.DICE_SIGNS.duplicate().values()
-			other_signs.erase(enemy.enemy_type)
+			other_signs.erase(enemy.type)
 			die_to_add = Global.get_stringsign_for_sign(other_signs[0] if randf() < 0.5 else other_signs[1]) + die_to_add
-		
 		enemy.add_new_die(die_to_add)
 	pass
 

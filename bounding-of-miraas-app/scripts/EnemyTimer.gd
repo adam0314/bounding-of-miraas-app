@@ -25,12 +25,14 @@ func _timeout():
 		enemy_power += 1
 		countdown = TIMEOUT
 		emit_signal("minute_has_passed")
-		enemy_power_label.text = "+" + str(enemy_power)
 	update_counter(countdown)
 	pass
 	
 func update_counter(time_left):
-	timer_label.text = str(time_left)
+	var textt = ""
+	var seconds : int = time_left % 60
+	var minutes : int = floor(float(time_left) / 60.0)
+	timer_label.text = str(minutes) + ":" + (("0" + str(seconds)) if seconds <= 9 else str(seconds))
 	pass
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

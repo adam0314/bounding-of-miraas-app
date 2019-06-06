@@ -6,14 +6,14 @@ extends PopupPanel
 onready var fight_base_ui_node = get_node("../..")
 onready var ui_items : ItemList = find_node("ItemList")
 
-var player_manager_who_fired_this_popup
+var player_manager_using_item
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 func setup_everything(player_manager):
-	player_manager_who_fired_this_popup = player_manager
+	player_manager_using_item = player_manager
 	var items = []
 	for item in player_manager.items:
 		if item.type == Global.ITEM_TYPES.Consumable:
@@ -35,11 +35,12 @@ func _on_ButtonConfirmItems_pressed():
 		hide()
 		return
 	else:
-		var item_id_arr = []
 		for idx in selected_idxs:
-			item_id_arr.append(ui_items.get_item_metadata(idx))
+			fight_base_ui_node.fight_manager.add_selected_items_dict({
+			"id": ui_items.get_item_metadata(idx),
+			"player_manager": player_manager_using_item
+			})
 		# these items are used, so we need to remove them
-		player_manager_who_fired_this_popup.remove_items_by_id(item_id_arr)
-		fight_base_ui_node.fight_manager.set_selected_items(item_id_arr)
+		fight_base_ui_node.emit_signal("use_item_or_end_fight")
 		hide()
 	pass

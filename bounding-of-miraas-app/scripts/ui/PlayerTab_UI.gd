@@ -10,7 +10,7 @@ var ui_needs_update_hp : bool = false
 
 onready var player_name_ui = find_node("LabelPlayerName")
 onready var player_tex = find_node("TexturePlayer")
-onready var hp_ui : SpinBox = find_node("HpSpinBox")
+onready var hp_ui : SpinBox = find_node("HpUi")
 onready var dice_ui : ItemList = find_node("DirectDiceContainer")
 onready var items_ui : ItemList = find_node("DirectItemContainer")
 		
@@ -68,8 +68,6 @@ func ui_update_items():
 		# new item will be added
 			print("gui adding item")
 			items_ui.add_item_and_its_data(item)
-
-	# TODO: Handle deletion
 	pass
 
 func ui_has_item(item) -> bool:
@@ -80,17 +78,12 @@ func ui_has_item(item) -> bool:
 	return false
 
 func ui_update_hp():
-	hp_ui.value = current_player_manager.hp
+	hp_ui.text = str(current_player_manager.hp)
 	pass
 
 func _on_PopupItem_popup_add_new_item(item_id):
 	current_player_manager.add_new_item(item_id)
 	pass
-
-func _on_HpSpinBox_value_changed(value):
-	current_player_manager.hp = int(floor(value))
-	pass # Replace with function body.
-
 
 func _on_ButtonFightEnemy_pressed():
 	get_parent().switch_tabs({"to_tab": "fight_base"})
@@ -112,4 +105,12 @@ func _on_ButtonRemoveItem_pressed():
 	for idx in selected_idxs:
 		var item_id = items_ui.get_item_metadata(idx)
 		current_player_manager.remove_item_by_id(item_id)
+	pass # Replace with function body.
+
+
+func _on_AddHpButton_pressed():
+	print("add hp")
+	if current_player_manager.hp < 3:
+		current_player_manager.hp = current_player_manager.hp + 1
+		ui_needs_update_hp = true
 	pass # Replace with function body.

@@ -63,6 +63,7 @@ func switch_tabs(val):
 			fight_base_node.switch_tabs(fight_base_node.FIGHT_BASE_TAB_ID)
 			self.current_tab = FIGHT_BASE_TAB_ID
 		"fight_result":
+			fight_result_node.setup(val)
 			self.current_tab = FIGHT_RESULT_TAB_ID
 	pass
 

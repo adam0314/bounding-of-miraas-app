@@ -14,6 +14,7 @@ var player_dice_throws : Array
 var player_throw_sum : int
 
 var actually_fighting : bool = false
+var end_fight : bool = false
 
 # Nodes
 var fight_manager : Node
@@ -32,6 +33,10 @@ onready var ui_enemy_score : Label = find_node("EnemySumLabel")
 
 onready var ui_add_items_popup : PopupPanel = find_node("PopupAddItems")
 onready var ui_confirm_button : TextureButton = find_node("ConfirmButton")
+
+# signals
+
+signal use_item_or_end_fight()
 
 func _ready():
 	pass
@@ -122,4 +127,10 @@ func _on_Player1AddItem_pressed():
 
 func _on_Player2AddItem_pressed():
 	fire_popup_add_items(2)
+	pass # Replace with function body.
+
+
+func _on_ConfirmButton_pressed():
+	end_fight = true
+	emit_signal("use_item_or_end_fight")
 	pass # Replace with function body.

@@ -6,3 +6,6 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+/resources_misc/Grafiki/karty - specjalne i część zwykłych.jpg
+/resources_misc/Grafiki/karty - zwykłe.jpg
+/resources_misc/Grafiki/żetony.jpg

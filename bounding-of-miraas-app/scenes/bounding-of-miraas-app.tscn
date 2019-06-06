@@ -1,18 +1,24 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://textures/ui/Background.png" type="Texture" id=1]
-[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=2]
-[ext_resource path="res://scripts/ui/buttons/PauseButton.gd" type="Script" id=3]
+[ext_resource path="res://fonts/alliewriting!.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=3]
 [ext_resource path="res://scripts/MainManager.gd" type="Script" id=4]
 [ext_resource path="res://scenes/Tab_PlayerData.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Tab_Fight.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=7]
-[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=8]
-[ext_resource path="res://scripts/FightManager.gd" type="Script" id=9]
-
-[sub_resource type="StyleBoxEmpty" id=2]
+[ext_resource path="res://scenes/Tab_FightResult.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=8]
+[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=9]
+[ext_resource path="res://scripts/FightManager.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="DynamicFont" id=3]
+size = 70
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="bounding-of-miraas-app" type="Node2D"]
 scale = Vector2( 7.56, 1.01088 )
@@ -43,50 +49,27 @@ anchor_bottom = 1.0
 margin_right = 480.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 480, 80 )
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainLayer/VBoxContainer/PanelTimer"]
-visible = false
+[node name="CenterContainer" type="CenterContainer" parent="MainLayer/VBoxContainer/PanelTimer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-alignment = 1
 
-[node name="Label" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/HBoxContainer"]
-margin_left = 101.0
-margin_top = 33.0
-margin_right = 262.0
-margin_bottom = 47.0
-text = "Zwiekszenie sily wrogow:"
-
-[node name="LabelTimer" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/HBoxContainer"]
-margin_left = 266.0
-margin_top = 33.0
-margin_right = 306.0
-margin_bottom = 47.0
+[node name="LabelTimer" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/CenterContainer"]
+margin_left = 165.0
+margin_right = 315.0
+margin_bottom = 88.0
 rect_min_size = Vector2( 40, 0 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "00:00"
 align = 1
 
-[node name="EnemyTimer" type="Timer" parent="MainLayer/VBoxContainer/PanelTimer/HBoxContainer/LabelTimer"]
-script = ExtResource( 2 )
-
-[node name="LabelEnemyPower" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/HBoxContainer"]
-margin_left = 310.0
-margin_top = 33.0
-margin_right = 326.0
-margin_bottom = 47.0
-text = "+0"
-
-[node name="PauseButton" type="Button" parent="MainLayer/VBoxContainer/PanelTimer/HBoxContainer"]
-margin_left = 330.0
-margin_top = 30.0
-margin_right = 379.0
-margin_bottom = 50.0
-size_flags_horizontal = 0
-size_flags_vertical = 4
-text = "pauza"
+[node name="EnemyTimer" type="Timer" parent="MainLayer/VBoxContainer/PanelTimer/CenterContainer/LabelTimer"]
 script = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MainLayer/VBoxContainer"]
@@ -101,7 +84,7 @@ __meta__ = {
 [node name="MainTabContainer" type="TabContainer" parent="MainLayer/VBoxContainer/MarginContainer"]
 margin_right = 480.0
 margin_bottom = 636.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 tab_align = 0
 tabs_visible = false
 script = ExtResource( 4 )
@@ -119,26 +102,23 @@ margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="FightResult" type="Control" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer"]
+[node name="FightResult" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 7 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
 
 [node name="LogicNodesContainer" type="Node" parent="."]
 
 [node name="EnemyManager" type="Node" parent="LogicNodesContainer" groups=[
 "enemy_manager",
 ]]
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="ItemManager" type="Node" parent="LogicNodesContainer" groups=[
 "item_manager",
 ]]
-script = ExtResource( 8 )
+script = ExtResource( 9 )
 
 [node name="FightManager" type="Node" parent="LogicNodesContainer" groups=[
 "fight_manager",
 ]]
-script = ExtResource( 9 )
-[connection signal="minute_has_passed" from="MainLayer/VBoxContainer/PanelTimer/HBoxContainer/LabelTimer/EnemyTimer" to="LogicNodesContainer/EnemyManager" method="_on_EnemyTimer_minute_has_passed"]
-[connection signal="pressed" from="MainLayer/VBoxContainer/PanelTimer/HBoxContainer/PauseButton" to="MainLayer/VBoxContainer/PanelTimer/HBoxContainer/PauseButton" method="_on_PauseButton_pressed"]
+script = ExtResource( 10 )
+[connection signal="minute_has_passed" from="MainLayer/VBoxContainer/PanelTimer/CenterContainer/LabelTimer/EnemyTimer" to="LogicNodesContainer/EnemyManager" method="_on_EnemyTimer_minute_has_passed"]

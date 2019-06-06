@@ -13,7 +13,7 @@ preload("res://textures/enemies/006.png"),
 preload("res://textures/enemies/007.png"),
 ]
 
-const TEX_DICE = preload("res://textures/dice.png")
+const TEX_DICE = preload("res://textures/ui/Dices.png")
 const TEX_ITEM_PASSIVE = preload("res://textures/ui/goldToken.png")
 const TEX_ITEM_CONSUMABLE = preload("res://textures/ui/rustyToken.png")
 

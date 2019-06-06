@@ -150,3 +150,8 @@ class PlayerManager:
 			for idx in indexes_to_remove:
 				dice_out.remove(idx)
 		return dice_out
+	
+	func lower_hp_by_1_and_ui_update():
+		hp -= 1
+		player_ui_node.ui_needs_update_hp = true
+		pass
