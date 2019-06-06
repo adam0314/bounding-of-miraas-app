@@ -41,6 +41,7 @@ func _ready():
 		})
 	
 	fight_base_node.fight_manager = fight_manager
+	fight_result_node.fight_manager = fight_manager
 	fight_manager.set_initial_values(
 	{
 		"fight_base_ui_node": fight_base_node,
@@ -71,6 +72,9 @@ func switch_players(this_player_manager, next_player_manager):
 	# swap them
 	player_node.current_player_manager = next_player_manager
 	player_node.update_all_data()
+	
+	enemy_manager.remove_player_enemy()
+	enemy_manager.add_player_enemy(this_player_manager)
 	
 	fight_manager.player_manager = next_player_manager
 	fight_manager.other_player_manager = this_player_manager

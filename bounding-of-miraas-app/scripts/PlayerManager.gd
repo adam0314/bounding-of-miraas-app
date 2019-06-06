@@ -67,19 +67,6 @@ class PlayerManager:
 		var item = item_manager.get_item_for_id(input_item_id)
 		items.append(item)
 		item_manager.erase_item_from_available(item)
-		
-		# Special case: if it is item 12 - change all d6 to 3 d2
-#		if item.id == 12:
-#			var dice_to_erase = []
-#			for die in dice:
-#				if die.dice_value == 6:
-#					add_new_die(die.dice_sign + "2", die.item_id)
-#					add_new_die(die.dice_sign + "2", die.item_id)
-#					add_new_die(die.dice_sign + "2", die.item_id)
-#					dice_to_erase.append(die)
-#			for die in dice_to_erase:
-#				dice.erase(die)
-#			player_ui_node.ui_needs_update_dice = true
 		if item.type == Global.ITEM_TYPES.Dice:
 			#Adding dice
 			for die_data in item.dice:
@@ -102,7 +89,7 @@ class PlayerManager:
 		for item in items:
 			if item.id == item_id:
 				return item
-		return {}
+		return ERR_DOES_NOT_EXIST
 	
 	func get_item_indexes() -> Array:
 		var arr = []
@@ -151,7 +138,17 @@ class PlayerManager:
 				dice_out.remove(idx)
 		return dice_out
 	
-	func lower_hp_by_1_and_ui_update():
+	func get_dice_to_string() -> Array:
+		var dice_arr = []
+		for die in dice:
+			dice_arr.append(die.to_string())
+		return dice_arr
+	
+	func lower_hp_by_1():
 		hp -= 1
+		pass
+	
+	func lower_hp_by_1_and_ui_update():
+		lower_hp_by_1()
 		player_ui_node.ui_needs_update_hp = true
 		pass

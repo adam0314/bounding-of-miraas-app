@@ -46,21 +46,16 @@ func get_stringsign_for_sign(signn) -> String:
 		DICE_SIGNS.Negative:
 			return "-"
 	pass
-	
-#const ITEMS_LIST = [
-#[10, ITEM_TYPES.Passive, "parzysty wynik +1"],
-#[11, ITEM_TYPES.Passive, "nieparzysty wynik -1"],
-#[12, ITEM_TYPES.Passive, "kazda k6 => 3k2"],
-#[13, ITEM_TYPES.Passive, "suma parzysta ? *2 : /2"],
-#[14, ITEM_TYPES.Passive, "kazdy rzut k2 *2"],
-#[15, ITEM_TYPES.Consumable, "abs(rzut)"],
-#[16, ITEM_TYPES.Consumable, "wynik * -1"],
-#[17, ITEM_TYPES.Consumable, "sumuj kosci i rzuc jedna"],
-#[18, ITEM_TYPES.Consumable, "nie tracisz hp przy przegraniu"],
-#[19, ITEM_TYPES.Passive, "moneta za wygranie walki"],
-#[20, ITEM_TYPES.Consumable, "wytrych"],
-#[21, ITEM_TYPES.Consumable, "+1 HP"]
-#]
+
+func get_color_for_stringsign(stringsign) -> Color:
+	match stringsign:
+		"+":
+			return COLOR_ORANGE
+		"":
+			return COLOR_GRAY
+		"-":
+			return COLOR_BLUE
+	pass
 
 const ITEMS_LIST = [
 {
@@ -90,7 +85,7 @@ const ITEMS_LIST = [
 {
 	"id": 4,
 	"name" : "Jednoreki bandyta",
-	"dice": ["100", "-20", "-20"],
+	"dice": ["50", "-20", "-20"],
 	"type": ITEM_TYPES.Dice
 	},
 {
@@ -203,63 +198,88 @@ func get_item_values_for_id(item_id : int) -> Dictionary:
 			return item
 	return {} # TODO: should throw an error
 	pass
+
+enum ENEMY_TYPE {
+	Normal,
+	Boss,
+	Player
+}
 	
 const ENEMIES_LIST = [
 {
 	"id": 0,
 	"name": "Moneciarz",
 	"dice": ["2", "2", "2", "2", "2"],
-	"type": DICE_SIGNS.Neutral,
-	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive]
+	"sign": DICE_SIGNS.Neutral,
+	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 1,
 	"name": "Krzywooki",
 	"dice": ["20", "-3"],
-	"type": DICE_SIGNS.Neutral,
-	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative]
+	"sign": DICE_SIGNS.Neutral,
+	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 2, 
 	"name": "Blyskotek", 
 	"dice": ["6", "6", "+3", "+3"], 
-	"type": DICE_SIGNS.Neutral, 
-	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive]
+	"sign": DICE_SIGNS.Neutral, 
+	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 3,
 	"name": "Deszczowiec",
 	"dice": ["-7"],
-	"type": DICE_SIGNS.Negative,
-	"allowed_dice": [DICE_SIGNS.Negative]
+	"sign": DICE_SIGNS.Negative,
+	"allowed_dice": [DICE_SIGNS.Negative],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 4,
 	"name": "Taplacz",
 	"dice": ["3", "3", "3", "-10", "-10"],
-	"type": DICE_SIGNS.Negative,
-	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
+	"sign": DICE_SIGNS.Negative,
+	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 5,
 	"name": "Zlotoskrzydly",
 	"dice": ["+6", "+6"],
-	"type": DICE_SIGNS.Positive,
-	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive]
+	"sign": DICE_SIGNS.Positive,
+	"allowed_dice": [DICE_SIGNS.Negative, DICE_SIGNS.Positive],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 6,
 	"name": "Czteroskrzydly",
 	"dice": ["5", "5", "5", "5"],
-	"type": DICE_SIGNS.Neutral,
-	"allowed_dice": [DICE_SIGNS.Neutral]
+	"sign": DICE_SIGNS.Neutral,
+	"allowed_dice": [DICE_SIGNS.Neutral],
+	"type": ENEMY_TYPE.Normal
 	},
 {
 	"id": 7,
 	"name": "Kolekcjoner",
 	"dice": ["2", "3", "4", "5", "6"],
-	"type": DICE_SIGNS.Neutral,
-	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative]
+	"sign": DICE_SIGNS.Neutral,
+	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative],
+	"type": ENEMY_TYPE.Normal
+	},
+{
+	"id": 101,
+	"name": "Wladca much",
+	"dice": ["15", "15"],
+	"dice_phase_2": ["10", "+2", "+2", "+2", "+2", "+2"],
+	"dice_phase_3": ["40", "-20"],
+	"phase": 1,
+	"sign": DICE_SIGNS.Neutral,
+	"allowed_dice": [DICE_SIGNS.Neutral, DICE_SIGNS.Positive, DICE_SIGNS.Negative],
+	"type": ENEMY_TYPE.Boss
 	}
 ]
 

@@ -13,12 +13,12 @@
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 70
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="bounding-of-miraas-app" type="Node2D"]
 scale = Vector2( 7.56, 1.01088 )
@@ -63,7 +63,7 @@ margin_left = 165.0
 margin_right = 315.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 40, 0 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "00:00"
@@ -84,7 +84,7 @@ __meta__ = {
 [node name="MainTabContainer" type="TabContainer" parent="MainLayer/VBoxContainer/MarginContainer"]
 margin_right = 480.0
 margin_bottom = 636.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
 tab_align = 0
 tabs_visible = false
 script = ExtResource( 4 )

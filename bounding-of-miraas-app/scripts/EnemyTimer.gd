@@ -4,9 +4,8 @@ extends Timer
 # var a = 2
 # var b = "text"
 
-const TIMEOUT : int = 179 # 3 minutes
+const TIMEOUT : int = 119 # 2 minutes
 onready var timer_label = get_parent()
-onready var enemy_power_label = get_parent().get_parent().get_node("LabelEnemyPower")
 var countdown : int = TIMEOUT
 var enemy_power : int = 0
 signal minute_has_passed()
@@ -32,7 +31,7 @@ func update_counter(time_left):
 	var textt = ""
 	var seconds : int = time_left % 60
 	var minutes : int = floor(float(time_left) / 60.0)
-	timer_label.text = str(minutes) + ":" + (("0" + str(seconds)) if seconds <= 9 else str(seconds))
+	timer_label.text = str(minutes) + ":" + str(seconds).pad_zeros(2)
 	pass
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -56,12 +56,7 @@ func ui_update_dice():
 func ui_update_items():
 	ui_needs_update_items = false;
 	var ui_items_count = items_ui.get_item_count()
-	# delete ones if necessary
-	for idx in range(ui_items_count):
-		var ui_item_id = items_ui.get_item_metadata(idx)
-		if current_player_manager.get_item_indexes().find(ui_item_id) == -1: # gui has item, player does not
-			print("ui delete item")
-			items_ui.remove_item(idx)
+	items_ui.clear()
 	# add new ones if necessary
 	for item in current_player_manager.items:
 		if not ui_has_item(item):

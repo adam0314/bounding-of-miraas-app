@@ -22,9 +22,10 @@ func setup_everything(player_manager):
 		ui_items = find_node("ItemList")
 	ui_items.clear()
 	for item in items:
-		ui_items.add_item(item.name + ": " + item.effect, TextureGlobal.TEX_ITEM_CONSUMABLE)
+		ui_items.add_item(item.name, TextureGlobal.TEX_ITEM_CONSUMABLE)
 		var idx_added = ui_items.get_item_count() - 1
 		ui_items.set_item_metadata(idx_added, item.id)
+		ui_items.set_item_tooltip(idx_added, item.effect)
 	popup()
 	pass
 

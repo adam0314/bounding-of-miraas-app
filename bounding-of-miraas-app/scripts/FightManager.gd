@@ -2,6 +2,11 @@ extends Node
 
 # Main fight manager
 
+# Consts
+
+const WIN_DIE_CREATE_CHANCE = 0.3 # 30%
+const MAXX_DIE_TO_ADD = 4
+
 # Vars
 
 var current_enemy = null
@@ -28,7 +33,7 @@ func set_initial_values(val):
 	pass
 	
 func update_enemy(id):
-	current_enemy = enemy_manager.enemies[id]
+	current_enemy = enemy_manager.get_enemy_by_id(id)
 	fight_base_ui.ui_need_update_enemy = true
 	pass
 
@@ -48,7 +53,8 @@ func fight():
 		print("no enemy")
 		return
 	print("fight!")
-	# else: commence fight!
+	var fighting_another_player = (current_enemy.type == Global.ENEMY_TYPE.Player)
+	#commence fight!
 	fight_base_ui.commence_fight()
 	
 	#player throws
@@ -70,19 +76,34 @@ func fight():
 	
 	if player_manager.player_has_item(10):
 		# each even throw +1
-		apply_item_10()
+		player_dice_throws = apply_item_10(player_dice_throws)
 	if player_manager.player_has_item(11):
 		# each odd throw -1
-		apply_item_11()
+		player_dice_throws = apply_item_11(player_dice_throws)
 	if player_manager.player_has_item(14):
 		# each d2 throw *2
-		apply_item_14()
+		player_dice_throws = apply_item_14(player_dice_throws)
+	
+	if fighting_another_player:
+		if player_manager.player_has_item(10):
+		# each even throw +1
+			enemy_dice_throws = apply_item_10(enemy_dice_throws)
+		if player_manager.player_has_item(11):
+		# each odd throw -1
+			enemy_dice_throws = apply_item_11(enemy_dice_throws)
+		if player_manager.player_has_item(14):
+		# each d2 throw *2
+			enemy_dice_throws = apply_item_14(enemy_dice_throws)
 
 	# Sum throws, apply item 13 if player has it
 
 	player_score = get_throw_sum(player_dice_throws)
 	if player_manager.player_has_item(13):
-		apply_item_13()
+		player_score = apply_item_13(player_score)
+	if fighting_another_player:
+		enemy_score = get_throw_sum(enemy_dice_throws)
+		if other_player_manager.player_has_item(13):
+			enemy_score = apply_item_13(enemy_score)
 	
 	# End of passives
 	
@@ -92,6 +113,7 @@ func fight():
 	# now, loop after confirm button is pressed
 	fight_base_ui.end_fight = false
 	var used_item_18 = false
+	var other_player_used_item_18 = false
 	while true:
 		yield(fight_base_ui, "use_item_or_end_fight")
 		if fight_base_ui.end_fight == true:
@@ -99,37 +121,94 @@ func fight():
 			break
 		print("use item")
 		# Start of actives
-		for dict in selected_items_dicts:
-			if dict["id"] == 17:
-				apply_item_17()
-			if dict["id"] == 16:
-				apply_item_16()
-			if dict["id"] == 15:
-				apply_item_15()
-			ui_print_throws()
-			if dict["id"] == 18:
-				used_item_18 = true
-			dict["player_manager"].remove_item_by_id(dict["id"])
-			dict["id"] = -1 #easier than deleting
+		
+		if not fighting_another_player:
+			for dict in selected_items_dicts:
+				if dict["id"] == 17:
+					var after17 = apply_item_17(player_dice_throws, player_score)
+					player_dice_throws = after17["throws"]
+					player_score = after17["score"]
+				if dict["id"] == 16:
+					player_score = apply_item_16(player_score)
+				if dict["id"] == 15:
+					player_score = apply_item_15(player_score)
+				ui_print_throws()
+				if dict["id"] == 18:
+					used_item_18 = true
+				dict["player_manager"].remove_item_by_id(dict["id"])
+				dict["id"] = -1 #easier than deleting
+		else:
+			# Here we have to differentiate, which player chose which items
+			for dict in selected_items_dicts:
+				if dict["player_manager"].player_id == player_manager.player_id:
+					# current player chose that item
+					if dict["id"] == 17:
+						var after17 = apply_item_17(player_dice_throws, player_score)
+						player_dice_throws = after17["throws"]
+						player_score = after17["score"]
+					if dict["id"] == 16:
+						player_score = apply_item_16(player_score)
+					if dict["id"] == 15:
+						player_score = apply_item_15(player_score)
+					ui_print_throws()
+					if dict["id"] == 18:
+						used_item_18 = true
+					if dict["id"] > -1:
+						player_manager.remove_item_by_id(dict["id"])
+					dict["id"] = -1 #easier than deleting
+				else:
+					# other player
+					if dict["id"] == 17:
+						var after17 = apply_item_17(enemy_dice_throws, enemy_score)
+						enemy_dice_throws = after17["throws"]
+						enemy_score = after17["score"]
+					if dict["id"] == 16:
+						enemy_score = apply_item_16(enemy_score)
+					if dict["id"] == 15:
+						enemy_score = apply_item_15(enemy_score)
+					ui_print_throws()
+					if dict["id"] == 18:
+						other_player_used_item_18 = true
+					if dict["id"] > -1:
+						other_player_manager.remove_item_by_id(dict["id"])
+					dict["id"] = -1 #easier than deleting
 		
 		# End of actives
+	# End of choosing loop
+	
+	# Calculate outcome
+		
 	var win = calculate_fight_outcome()
 	if win:
+		# special case: if it was boss, update that bithh
+		if current_enemy.type == Global.ENEMY_TYPE.Boss:
+			current_enemy.advance_phase()
+		# if win, 60% chance of receiving random dice
+		var die_val = ""
+		if current_enemy.type == Global.ENEMY_TYPE.Normal:
+			# only normal enemies drop dice
+			if randf() <= WIN_DIE_CREATE_CHANCE:
+				die_val = ["", "-", "+"][randi() % 3] + str((randi() % (MAXX_DIE_TO_ADD - 1)) + 2)
+				player_manager.add_new_die(die_val)
+		
+		# if fighting player, he lowers hp by 1
+		if current_enemy.type == Global.ENEMY_TYPE.Player and (not other_player_used_item_18):
+			other_player_manager.lower_hp_by_1()
 		# navigate to fight result tab
 		fight_base_ui.get_parent().switch_tabs({
 			"to_tab": "fight_result",
 			"win": true,
-			"has_item_18": used_item_18,
-			"has_item_19": player_manager.player_has_item(19)})
-	else:
+			"has_item_19": player_manager.player_has_item(19),
+			"created_die": die_val,
+			"steal_item": true})
+	else: # lose
 		# navigate to fight result tab
 		if not used_item_18:
 			player_manager.lower_hp_by_1_and_ui_update()
 		fight_base_ui.get_parent().switch_tabs({
 			"to_tab": "fight_result",
 			"win": false,
-			"has_item_18": used_item_18,
-			"has_item_19": player_manager.player_has_item(19)})
+			"has_item_18": used_item_18})
 		# lost
 	# Clear up after a fight and switch tabs
 	#fight_base_ui.get_parent().switch_tabs({"to_tab": "fight_result"})
@@ -144,56 +223,56 @@ func get_throw_sum(throws) -> int:
 		sum += t["value"]
 	return sum
 
-func apply_item_10():
+func apply_item_10(throws):
 	# each even throw +1
-	for throw in player_dice_throws:
+	for throw in throws:
 		if int(abs(throw["value"])) % 2 == 0:
 			throw["value"] += 1
-	pass
+	return throws
 
-func apply_item_11():
+func apply_item_11(throws):
 	# each odd throw -1
-	for throw in player_dice_throws:
+	for throw in throws:
 		if int(abs(throw["value"])) % 2 == 1:
 			throw["value"] -= 1
-	pass
+	return throws
 
-func apply_item_14():
+func apply_item_14(throws):
 	# each d2 throw *2
-	for throw in player_dice_throws:
+	for throw in throws:
 		if throw["dice_val"] == 2:
 			throw["value"] *= 2
-	pass
+	return throws
 
-func apply_item_13():
-	if int(abs(player_score)) % 2 == 0:
-		player_score *= 2
+func apply_item_13(score):
+	if int(abs(score)) % 2 == 0:
+		score *= 2
 	else:
-		player_score /= 2
-	pass
+		score /= 2
+	return score
 	
-func apply_item_15():
-	player_score = int(abs(player_score))
-	pass
+func apply_item_15(score):
+	score = int(abs(score))
+	return score
 
-func apply_item_16():
-	player_score = player_score * -1
-	pass
+func apply_item_16(score):
+	score = score * -1
+	return score
 
-func apply_item_17():
+func apply_item_17(throws, score):
 	# Simulate rolling one die
 	# Takes sign from enemy
-	player_dice_throws = []
+	throws = []
 	var sim_die_value : int = 0
 	for die in player_manager.dice:
 		sim_die_value += die.to_int_val()
 	var result = (randi() % sim_die_value) + 1
-	if current_enemy.type == Global.DICE_SIGNS.Negative:
-		player_dice_throws.append({"value": result * (-1), "sign": current_enemy.type, "dice_val" : sim_die_value})
+	if current_enemy.signn == Global.DICE_SIGNS.Negative:
+		throws.append({"value": result * (-1), "sign": current_enemy.signn, "dice_val" : sim_die_value})
 	else:
-		player_dice_throws.append({"value": result, "sign": current_enemy.type, "dice_val" : sim_die_value})
-	player_score = get_throw_sum(player_dice_throws)
-	pass
+		throws.append({"value": result, "sign": current_enemy.signn, "dice_val" : sim_die_value})
+	score = get_throw_sum(throws)
+	return {"throws": throws, "score": score}
 
 func ui_print_throws():
 	fight_base_ui.print_throws({
@@ -204,9 +283,8 @@ func ui_print_throws():
 	})
 	pass
 
-
 func calculate_fight_outcome() -> bool:
-	if current_enemy.type == Global.DICE_SIGNS.Negative:
+	if current_enemy.signn == Global.DICE_SIGNS.Negative:
 		return player_score <= enemy_score
 	else:
 		return player_score >= enemy_score

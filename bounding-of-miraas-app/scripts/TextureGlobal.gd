@@ -2,6 +2,7 @@ extends Node
 
 const TEX_BACK = preload("res://textures/ui/back_button.png")
 const TEX_ENEMY_DEFAULT = preload("res://textures/enemies/EnemyToken.png")
+const TEX_ENEMY_DEFAULT_SMALL = preload("res://textures/enemies/EnemyToken_small.png")
 const TEX_ENEMY_LIST = [
 preload("res://textures/enemies/000.png"),
 preload("res://textures/enemies/001.png"),
@@ -12,6 +13,7 @@ preload("res://textures/enemies/005.png"),
 preload("res://textures/enemies/006.png"),
 preload("res://textures/enemies/007.png"),
 ]
+const TEX_BOSS_01 = preload("res://textures/enemies/boss01.png")
 
 const TEX_DICE = preload("res://textures/ui/Dices.png")
 const TEX_ITEM_PASSIVE = preload("res://textures/ui/goldToken.png")
@@ -34,7 +36,16 @@ func get_tex_for_item_type(type):
 	pass
 
 func get_tex_for_enemy_id(id):
-	return TEX_ENEMY_LIST[id]
+	if id < 100:
+		return TEX_ENEMY_LIST[id]
+	elif id < 200:
+		return TEX_BOSS_01
+	elif id == 201:
+		return TEX_PLAYER_1_small
+	elif id == 202:
+		return TEX_PLAYER_2_small
+	else:
+		return {} # TODO error
 
 func get_tex_for_player_id(id):
 	return TEX_PLAYER_1 if id == 1 else TEX_PLAYER_2

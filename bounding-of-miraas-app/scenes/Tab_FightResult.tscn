@@ -1,11 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/ui/FightResultTab_UI.gd" type="Script" id=1]
 [ext_resource path="res://textures/ui/Porazka.png" type="Texture" id=2]
 [ext_resource path="res://textures/ui/Sukces.png" type="Texture" id=3]
 [ext_resource path="res://textures/ui/Text.png" type="Texture" id=4]
-[ext_resource path="res://textures/ui/back_button_hover.png" type="Texture" id=5]
-[ext_resource path="res://textures/ui/back_button.png" type="Texture" id=6]
+[ext_resource path="res://fonts/aliiewriting_dynamicfont.tres" type="DynamicFont" id=5]
+[ext_resource path="res://textures/ui/back_button_hover.png" type="Texture" id=6]
+[ext_resource path="res://textures/ui/back_button.png" type="Texture" id=7]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -75,14 +76,20 @@ custom_constants/margin_top = 30
 custom_constants/margin_left = 50
 custom_constants/margin_bottom = 30
 
-[node name="LootList" type="ItemList" parent="MarginContainer/VBoxContainer/TabResultCont/MarginContainer/Panel/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabResultCont/MarginContainer/Panel/MarginContainer"]
 margin_left = 50.0
 margin_top = 30.0
 margin_right = 430.0
 margin_bottom = 217.0
+
+[node name="LootList" type="ItemList" parent="MarginContainer/VBoxContainer/TabResultCont/MarginContainer/Panel/MarginContainer/ScrollContainer"]
+margin_right = 380.0
+margin_bottom = 187.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/bg = SubResource( 5 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 same_column_width = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -95,6 +102,7 @@ alignment = 2
 margin_left = 299.0
 margin_right = 480.0
 margin_bottom = 218.0
-texture_normal = ExtResource( 5 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource( 6 )
+texture_hover = ExtResource( 7 )
+[connection signal="item_activated" from="MarginContainer/VBoxContainer/TabResultCont/MarginContainer/Panel/MarginContainer/ScrollContainer/LootList" to="." method="_on_LootList_item_activated"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]

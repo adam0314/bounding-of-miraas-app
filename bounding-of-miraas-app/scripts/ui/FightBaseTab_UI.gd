@@ -25,6 +25,7 @@ onready var enemy_option_button : OptionButton = find_node("EnemyName")
 
 onready var ui_fight_tab : TabContainer = find_node("FightTabCont")
 onready var ui_player_texture : TextureRect = find_node("PlayerTexture")
+onready var ui_enemy_texture : TextureRect = find_node("EnemyMiniTexture")
 
 onready var ui_player_throws : RichTextLabel = find_node("PlayerThrowsLabel")
 onready var ui_enemy_throws : RichTextLabel = find_node("EnemyThrowsLabel")
@@ -60,6 +61,10 @@ func _process(delta):
 	if ui_need_update_enemy:
 		ui_need_update_enemy = false
 		ui_enemy_container.ui_update_enemy(fight_manager.current_enemy)
+		if fight_manager.current_enemy.type == Global.ENEMY_TYPE.Player:
+			ui_enemy_texture.texture = TextureGlobal.get_tex_for_enemy_id(fight_manager.current_enemy.id)
+		else:
+			ui_enemy_texture.texture = TextureGlobal.TEX_ENEMY_DEFAULT_SMALL
 	pass
 	
 func update_enemy(id): #going up
@@ -68,6 +73,7 @@ func update_enemy(id): #going up
 
 func clear_enemy(): #coming from up
 	ui_enemy_container.ui_clear_enemy()
+	ui_enemy_texture.texture = TextureGlobal.TEX_ENEMY_DEFAULT
 	pass
 
 func clear_all_ui():
@@ -77,6 +83,7 @@ func clear_all_ui():
 	else:
 		ui_player_texture.texture = TextureGlobal.TEX_PLAYER_2_small
 	pass
+	ui_enemy_texture.texture = TextureGlobal.TEX_ENEMY_DEFAULT
 	ui_fight_tab.current_tab = 0
 
 func clear_throws():
