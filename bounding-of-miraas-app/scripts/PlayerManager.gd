@@ -21,6 +21,8 @@ class PlayerManager:
 	# Nodes
 	var fight_manager : Node
 	var item_manager : Node
+	var enemy_power : int
+	var enemy_power_countdown_left : int
 	
 	
 	var DICE_OBJECT_SCRIPT = preload("res://scripts/DiceObject.gd")
@@ -32,6 +34,8 @@ class PlayerManager:
 		next_player_manager = value["next_player_manager"]
 		player_ui_node = value["player_ui_node"]
 		item_manager = value["item_manager"]
+		enemy_power = value["enemy_power"]
+		enemy_power_countdown_left = Global.ENEMY_POWER_TIMEOUT
 		for die in INITIAL_DICE:
 			add_new_die(die)
 		player_ui_node.ui_needs_update_hp = true
@@ -51,15 +55,11 @@ class PlayerManager:
 		return die
 	
 	func eval_and_add_new_die(die_value):
-#		if ["+6", "6", "-6"].find(die_value) >= 0:
-#			if player_has_item(12):
-#			# special case - convert d6 to 3d2
-#				die_value = die_value.rstrip("6") + "2"
-#				add_new_die(die_value)
-#				add_new_die(die_value)
-#				add_new_die(die_value)
-#				return
 		add_new_die(die_value)
+		pass
+	
+	func set_countdown_left(cnt):
+		enemy_power_countdown_left = cnt
 		pass
 	
 	func add_new_item(input_item_id):
@@ -151,4 +151,9 @@ class PlayerManager:
 	func lower_hp_by_1_and_ui_update():
 		lower_hp_by_1()
 		player_ui_node.ui_needs_update_hp = true
+		pass
+	
+	func increment_enemy_power():
+		enemy_power += 1
+		player_ui_node.ui_needs_update_enemy_power = true
 		pass

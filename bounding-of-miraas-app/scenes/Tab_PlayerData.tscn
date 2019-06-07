@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scripts/ui/PlayerTab_UI.gd" type="Script" id=1]
 [ext_resource path="res://scripts/ui/popups/AddDicePopup.gd" type="Script" id=2]
@@ -9,14 +9,16 @@
 [ext_resource path="res://textures/ui/Heart .png" type="Texture" id=7]
 [ext_resource path="res://fonts/alliewriting!.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://textures/ui/Add.png" type="Texture" id=9]
-[ext_resource path="res://styles/button_style.tres" type="StyleBox" id=10]
-[ext_resource path="res://textures/ui/Text.png" type="Texture" id=11]
-[ext_resource path="res://scripts/ui/Dice_UI.gd" type="Script" id=12]
-[ext_resource path="res://styles/button_style_disabled.tres" type="StyleBox" id=13]
-[ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=14]
-[ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=15]
+[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=10]
+[ext_resource path="res://textures/enemies/EnemyToken_small.png" type="Texture" id=11]
+[ext_resource path="res://styles/button_style.tres" type="StyleBox" id=12]
+[ext_resource path="res://textures/ui/Text.png" type="Texture" id=13]
+[ext_resource path="res://scripts/ui/Dice_UI.gd" type="Script" id=14]
+[ext_resource path="res://styles/button_style_disabled.tres" type="StyleBox" id=15]
+[ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=16]
+[ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=17]
 
-[sub_resource type="StyleBoxTexture" id=1]
+[sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 4 )
 region_rect = Rect2( 48, 28, 466, 125 )
 expand_margin_left = 30.0
@@ -24,18 +26,28 @@ expand_margin_right = 30.0
 expand_margin_top = 15.0
 expand_margin_bottom = 10.0
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 20
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="StyleBoxTexture" id=3]
-texture = ExtResource( 11 )
+[sub_resource type="DynamicFont" id=2]
+size = 70
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 70
+use_filter = true
+font_data = ExtResource( 8 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 13 )
 region_rect = Rect2( 29, 25, 526, 339 )
 
-[sub_resource type="StyleBoxEmpty" id=4]
+[sub_resource type="StyleBoxEmpty" id=6]
 
-[sub_resource type="StyleBoxEmpty" id=5]
+[sub_resource type="StyleBoxEmpty" id=7]
 
 [node name="Tab_PlayerData" type="Control"]
 anchor_right = 1.0
@@ -109,28 +121,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Playername" type="CenterContainer" parent="PlayerData"]
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 20.0
 
 [node name="LabelPlayerName" type="Label" parent="PlayerData/Playername"]
-margin_left = 178.0
-margin_right = 293.0
+margin_left = 182.0
+margin_right = 297.0
 margin_bottom = 20.0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "fsdfsdfdsfsdfsd"
 align = 1
 
 [node name="PlayerMainCont" type="HBoxContainer" parent="PlayerData"]
+editor/display_folded = true
 margin_top = 24.0
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 184.0
 alignment = 1
 
 [node name="PlayerIconContainer" type="CenterContainer" parent="PlayerData/PlayerMainCont"]
-margin_left = 111.0
-margin_right = 271.0
+margin_left = 115.0
+margin_right = 275.0
 margin_bottom = 160.0
 
 [node name="TexturePlayer" type="TextureRect" parent="PlayerData/PlayerMainCont/PlayerIconContainer"]
@@ -139,8 +152,8 @@ margin_bottom = 160.0
 texture = ExtResource( 6 )
 
 [node name="PlayerHealthContainer" type="CenterContainer" parent="PlayerData/PlayerMainCont"]
-margin_left = 275.0
-margin_right = 361.0
+margin_left = 279.0
+margin_right = 365.0
 margin_bottom = 160.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerData/PlayerMainCont/PlayerHealthContainer"]
@@ -166,7 +179,7 @@ margin_left = 35.0
 margin_top = 29.0
 margin_right = 46.0
 margin_bottom = 55.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 
@@ -176,21 +189,81 @@ margin_right = 86.0
 margin_bottom = 150.0
 texture_normal = ExtResource( 9 )
 
-[node name="PlayerDicesContainer" type="VBoxContainer" parent="PlayerData"]
+[node name="PanelTimer" type="MarginContainer" parent="PlayerData"]
 margin_top = 188.0
-margin_right = 472.0
-margin_bottom = 410.0
+margin_right = 480.0
+margin_bottom = 276.0
+rect_min_size = Vector2( 480, 80 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PanelTimer"]
+margin_right = 480.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="PlayerData/PanelTimer/HBoxContainer"]
+margin_right = 238.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+
+[node name="LabelTimer" type="Label" parent="PlayerData/PanelTimer/HBoxContainer/CenterContainer"]
+margin_left = 44.0
+margin_right = 194.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 40, 0 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "00:00"
+align = 1
+
+[node name="EnemyPowerTimer" type="Timer" parent="PlayerData/PanelTimer/HBoxContainer/CenterContainer/LabelTimer"]
+script = ExtResource( 10 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PanelTimer/HBoxContainer"]
+margin_left = 242.0
+margin_right = 480.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer"]
+margin_left = 49.0
+margin_right = 113.0
+margin_bottom = 88.0
+
+[node name="TextureRect" type="TextureRect" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer/CenterContainer"]
+margin_top = 12.0
+margin_right = 64.0
+margin_bottom = 76.0
+texture = ExtResource( 11 )
+
+[node name="CenterContainer2" type="CenterContainer" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer"]
+margin_left = 117.0
+margin_right = 189.0
+margin_bottom = 88.0
+
+[node name="EnemyPowerLabel" type="Label" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer/CenterContainer2"]
+margin_right = 72.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "+0"
+
+[node name="PlayerDicesContainer" type="VBoxContainer" parent="PlayerData"]
+margin_top = 280.0
+margin_right = 480.0
+margin_bottom = 456.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerDicesContainer"]
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 20.0
 custom_constants/separation = 22
 alignment = 1
 
 [node name="Label" type="Label" parent="PlayerData/PlayerDicesContainer/HBoxContainer"]
-margin_left = 164.0
-margin_right = 200.0
+margin_left = 168.0
+margin_right = 204.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -199,28 +272,28 @@ text = "Kosci"
 align = 1
 
 [node name="ButtonAddDice" type="Button" parent="PlayerData/PlayerDicesContainer/HBoxContainer"]
-margin_left = 222.0
-margin_right = 307.0
+margin_left = 226.0
+margin_right = 311.0
 margin_bottom = 20.0
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/normal = ExtResource( 12 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "dodaj nowa"
 
 [node name="PanelC" type="PanelContainer" parent="PlayerData/PlayerDicesContainer"]
 margin_top = 24.0
-margin_right = 472.0
-margin_bottom = 222.0
+margin_right = 480.0
+margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerDicesContainer/PanelC"]
-margin_right = 472.0
-margin_bottom = 198.0
+margin_right = 480.0
+margin_bottom = 152.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 30
 custom_constants/margin_left = 50
@@ -229,39 +302,39 @@ custom_constants/margin_bottom = 30
 [node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerDicesContainer/PanelC/MarginContainer"]
 margin_left = 50.0
 margin_top = 30.0
-margin_right = 422.0
-margin_bottom = 168.0
+margin_right = 430.0
+margin_bottom = 122.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="DirectDiceContainer" type="ItemList" parent="PlayerData/PlayerDicesContainer/PanelC/MarginContainer/ScrollContainer"]
-margin_right = 372.0
-margin_bottom = 138.0
+margin_right = 380.0
+margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 4 )
+custom_styles/bg = SubResource( 6 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 max_columns = 6
 same_column_width = true
-script = ExtResource( 12 )
+script = ExtResource( 14 )
 
 [node name="PlayerItemsContainer" type="VBoxContainer" parent="PlayerData"]
-margin_top = 414.0
-margin_right = 472.0
+margin_top = 460.0
+margin_right = 480.0
 margin_bottom = 636.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerData/PlayerItemsContainer"]
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 20.0
 custom_constants/separation = 31
 alignment = 1
 
 [node name="Label" type="Label" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 106.0
-margin_right = 186.0
+margin_left = 110.0
+margin_right = 190.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -269,45 +342,45 @@ text = "Przedmioty"
 align = 1
 
 [node name="ButtonAddItem" type="Button" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 217.0
-margin_right = 299.0
+margin_left = 221.0
+margin_right = 303.0
 margin_bottom = 20.0
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/normal = ExtResource( 12 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_disabled = Color( 0.564706, 0.564706, 0.564706, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "dodaj nowy"
 
 [node name="ButtonRemoveItem" type="Button" parent="PlayerData/PlayerItemsContainer/HBoxContainer"]
-margin_left = 330.0
-margin_right = 365.0
+margin_left = 334.0
+margin_right = 369.0
 margin_bottom = 20.0
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/disabled = ExtResource( 13 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/disabled = ExtResource( 15 )
+custom_styles/normal = ExtResource( 12 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_disabled = Color( 0.505882, 0.505882, 0.505882, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 disabled = true
 text = "usun"
-script = ExtResource( 14 )
+script = ExtResource( 16 )
 
 [node name="PanelC2" type="PanelContainer" parent="PlayerData/PlayerItemsContainer"]
 margin_top = 24.0
-margin_right = 472.0
-margin_bottom = 222.0
+margin_right = 480.0
+margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerItemsContainer/PanelC2"]
-margin_right = 472.0
-margin_bottom = 198.0
+margin_right = 480.0
+margin_bottom = 152.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 30
 custom_constants/margin_left = 50
@@ -316,74 +389,74 @@ custom_constants/margin_bottom = 30
 [node name="ScrollContainer" type="ScrollContainer" parent="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer"]
 margin_left = 50.0
 margin_top = 30.0
-margin_right = 422.0
-margin_bottom = 168.0
+margin_right = 430.0
+margin_bottom = 122.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="DirectItemContainer" type="ItemList" parent="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer"]
-margin_right = 372.0
-margin_bottom = 138.0
+margin_right = 380.0
+margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 5 )
+custom_styles/bg = SubResource( 7 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 same_column_width = true
-script = ExtResource( 15 )
+script = ExtResource( 17 )
 
 [node name="NavButtonsCont" type="HBoxContainer" parent="PlayerData"]
 editor/display_folded = true
 margin_top = 640.0
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 670.0
 rect_min_size = Vector2( 0, 30 )
 custom_constants/separation = 18
 alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
-margin_left = 144.0
-margin_right = 194.0
+margin_left = 148.0
+margin_right = 198.0
 margin_bottom = 30.0
 
 [node name="ButtonFightEnemy" type="Button" parent="PlayerData/NavButtonsCont/CenterContainer"]
 margin_top = 5.0
 margin_right = 50.0
 margin_bottom = 25.0
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/normal = ExtResource( 12 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Walcz!"
 
 [node name="CenterContainer2" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
-margin_left = 212.0
-margin_right = 212.0
+margin_left = 216.0
+margin_right = 216.0
 margin_bottom = 30.0
 
 [node name="CenterContainer3" type="CenterContainer" parent="PlayerData/NavButtonsCont"]
-margin_left = 230.0
-margin_right = 327.0
+margin_left = 234.0
+margin_right = 331.0
 margin_bottom = 30.0
 
 [node name="ButtonEndTurn" type="Button" parent="PlayerData/NavButtonsCont/CenterContainer3"]
 margin_top = 5.0
 margin_right = 97.0
 margin_bottom = 25.0
-custom_styles/hover = ExtResource( 10 )
-custom_styles/pressed = ExtResource( 10 )
-custom_styles/focus = ExtResource( 10 )
-custom_styles/normal = ExtResource( 10 )
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/normal = ExtResource( 12 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Zakoncz ture"
 
 [node name="DummyThiccCont" type="MarginContainer" parent="PlayerData"]
 margin_top = 674.0
-margin_right = 472.0
+margin_right = 480.0
 margin_bottom = 684.0
 rect_min_size = Vector2( 0, 10 )
 [connection signal="confirmed" from="CanvasLayer/PopupPanel/PopupDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_PopupDice_confirmed"]
@@ -391,10 +464,11 @@ rect_min_size = Vector2( 0, 10 )
 [connection signal="confirmed" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_popup_hide"]
 [connection signal="pressed" from="PlayerData/PlayerMainCont/PlayerHealthContainer/VBoxContainer/AddHpButton" to="." method="_on_AddHpButton_pressed"]
+[connection signal="time_has_passed" from="PlayerData/PanelTimer/HBoxContainer/CenterContainer/LabelTimer/EnemyPowerTimer" to="." method="_on_EnemyPowerTimer_time_has_passed"]
 [connection signal="pressed" from="PlayerData/PlayerDicesContainer/HBoxContainer/ButtonAddDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_ButtonAddDice_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonAddItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_ButtonAddItem_pressed"]
-[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="." method="_on_ButtonRemoveItem_pressed"]
+[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
 [connection signal="item_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_item_selected"]
 [connection signal="nothing_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_nothing_selected"]
 [connection signal="pressed" from="PlayerData/NavButtonsCont/CenterContainer/ButtonFightEnemy" to="." method="_on_ButtonFightEnemy_pressed"]

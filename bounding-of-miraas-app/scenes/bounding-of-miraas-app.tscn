@@ -1,15 +1,14 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://textures/ui/Background.png" type="Texture" id=1]
 [ext_resource path="res://fonts/alliewriting!.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://scripts/EnemyTimer.gd" type="Script" id=3]
-[ext_resource path="res://scripts/MainManager.gd" type="Script" id=4]
-[ext_resource path="res://scenes/Tab_PlayerData.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/Tab_Fight.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/Tab_FightResult.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=8]
-[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=9]
-[ext_resource path="res://scripts/FightManager.gd" type="Script" id=10]
+[ext_resource path="res://scripts/MainManager.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Tab_PlayerData.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Tab_Fight.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Tab_FightResult.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/EnemyManager.gd" type="Script" id=7]
+[ext_resource path="res://scripts/ItemManager.gd" type="Script" id=8]
+[ext_resource path="res://scripts/FightManager.gd" type="Script" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -58,19 +57,16 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="LabelTimer" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/CenterContainer"]
-margin_left = 165.0
-margin_right = 315.0
+[node name="LabelLevel" type="Label" parent="MainLayer/VBoxContainer/PanelTimer/CenterContainer"]
+margin_left = 106.0
+margin_right = 374.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 40, 0 )
 custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-text = "00:00"
+text = "Poziom 1"
 align = 1
-
-[node name="EnemyTimer" type="Timer" parent="MainLayer/VBoxContainer/PanelTimer/CenterContainer/LabelTimer"]
-script = ExtResource( 3 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MainLayer/VBoxContainer"]
 margin_top = 84.0
@@ -87,22 +83,22 @@ margin_bottom = 636.0
 custom_styles/panel = SubResource( 3 )
 tab_align = 0
 tabs_visible = false
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
-[node name="Player" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 5 )]
+[node name="Player" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 4 )]
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="FightBase" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 6 )]
+[node name="FightBase" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 5 )]
 visible = false
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="FightResult" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 7 )]
+[node name="FightResult" parent="MainLayer/VBoxContainer/MarginContainer/MainTabContainer" instance=ExtResource( 6 )]
 visible = false
 
 [node name="LogicNodesContainer" type="Node" parent="."]
@@ -110,15 +106,14 @@ visible = false
 [node name="EnemyManager" type="Node" parent="LogicNodesContainer" groups=[
 "enemy_manager",
 ]]
-script = ExtResource( 8 )
+script = ExtResource( 7 )
 
 [node name="ItemManager" type="Node" parent="LogicNodesContainer" groups=[
 "item_manager",
 ]]
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 
 [node name="FightManager" type="Node" parent="LogicNodesContainer" groups=[
 "fight_manager",
 ]]
-script = ExtResource( 10 )
-[connection signal="minute_has_passed" from="MainLayer/VBoxContainer/PanelTimer/CenterContainer/LabelTimer/EnemyTimer" to="LogicNodesContainer/EnemyManager" method="_on_EnemyTimer_minute_has_passed"]
+script = ExtResource( 9 )

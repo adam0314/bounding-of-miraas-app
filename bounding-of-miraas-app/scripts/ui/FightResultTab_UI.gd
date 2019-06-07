@@ -31,11 +31,12 @@ func setup(val: Dictionary):
 				"what": "die",
 				"value": val["created_die"]})
 	if val.has("steal_item"):
-		can_steal_item = true
-		for item in fight_manager.other_player_manager.items:
-			add_to_loot_list({
-				"what": "item",
-				"value": item})
+		if val["steal_item"] == true:
+			can_steal_item = true
+			for item in fight_manager.other_player_manager.items:
+				add_to_loot_list({
+					"what": "item",
+					"value": item})
 		
 	else:
 		tab_result.current_tab = LOSE_TAB

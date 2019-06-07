@@ -71,6 +71,10 @@ func update_enemy(id): #going up
 	fight_manager.update_enemy(id)
 	pass
 
+func update_enemy_power():
+	fight_manager.update_enemy_to_power()
+	pass
+
 func clear_enemy(): #coming from up
 	ui_enemy_container.ui_clear_enemy()
 	ui_enemy_texture.texture = TextureGlobal.TEX_ENEMY_DEFAULT

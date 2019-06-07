@@ -5,6 +5,7 @@ var current_player_manager
 var ui_needs_update_dice : bool = false
 var ui_needs_update_items : bool = false
 var ui_needs_update_hp : bool = false
+var ui_needs_update_enemy_power : bool = false
 
 # Nodes
 
@@ -13,6 +14,8 @@ onready var player_tex = find_node("TexturePlayer")
 onready var hp_ui : SpinBox = find_node("HpUi")
 onready var dice_ui : ItemList = find_node("DirectDiceContainer")
 onready var items_ui : ItemList = find_node("DirectItemContainer")
+onready var enemy_power_ui : Label = find_node("EnemyPowerLabel")
+onready var enemy_power_timer : Timer = find_node("EnemyPowerTimer")
 		
 func _process(delta):
 	if ui_needs_update_dice:
@@ -21,6 +24,8 @@ func _process(delta):
 		ui_update_items()
 	if ui_needs_update_hp:
 		ui_update_hp()
+	if ui_needs_update_enemy_power:
+		ui_update_enemy_power()
 	pass
 
 func update_all_data():
@@ -29,6 +34,18 @@ func update_all_data():
 	ui_update_hp()
 	ui_update_items()
 	ui_update_player_name()
+	ui_update_enemy_power()
+	update_timer_countdown()
+
+func update_timer_countdown():
+	enemy_power_timer.countdown = current_player_manager.enemy_power_countdown_left
+	enemy_power_timer.update_counter()
+	pass
+
+func ui_update_enemy_power():
+	ui_needs_update_enemy_power = false
+	enemy_power_ui.text = "+" + str(current_player_manager.enemy_power)
+	pass
 
 func ui_update_player_tex():
 	player_tex.texture = TextureGlobal.get_tex_for_player_id(current_player_manager.player_id)
@@ -86,6 +103,7 @@ func _on_ButtonFightEnemy_pressed():
 
 
 func _on_ButtonEndTurn_pressed():
+	current_player_manager.set_countdown_left(enemy_power_timer.countdown)
 	get_parent().switch_players(current_player_manager,
 								current_player_manager.next_player_manager)
 	pass # Replace with function body.
@@ -108,4 +126,9 @@ func _on_AddHpButton_pressed():
 	if current_player_manager.hp < 3:
 		current_player_manager.hp = current_player_manager.hp + 1
 		ui_needs_update_hp = true
+	pass # Replace with function body.
+
+
+func _on_EnemyPowerTimer_time_has_passed():
+	current_player_manager.increment_enemy_power()
 	pass # Replace with function body.

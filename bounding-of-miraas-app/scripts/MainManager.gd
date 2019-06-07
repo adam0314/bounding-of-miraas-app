@@ -29,7 +29,8 @@ func _ready():
 		"player_name": "Smutny gracz",
 		"next_player_manager": player_2_manager,
 		"player_ui_node": player_node,
-		"item_manager": item_manager
+		"item_manager": item_manager,
+		"enemy_power" : 0
 		})
 	player_2_manager.set_initial_values(
 	{
@@ -37,7 +38,8 @@ func _ready():
 		"player_name": "Wesoly gracz",
 		"next_player_manager": player_1_manager,
 		"player_ui_node": player_node,
-		"item_manager": item_manager
+		"item_manager": item_manager,
+		"enemy_power" : 0
 		})
 	
 	fight_base_node.fight_manager = fight_manager
@@ -63,6 +65,7 @@ func switch_tabs(val):
 		"fight_base":
 			fight_base_node.switch_tabs(fight_base_node.FIGHT_BASE_TAB_ID)
 			self.current_tab = FIGHT_BASE_TAB_ID
+			fight_base_node.update_enemy_power()
 		"fight_result":
 			fight_result_node.setup(val)
 			self.current_tab = FIGHT_RESULT_TAB_ID

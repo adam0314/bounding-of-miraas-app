@@ -7,9 +7,6 @@ var enemy_power : int
 
 # consts
 
-const ENEMY_POWER_INCREMENT : int = 1
-const CHANCE_FOR_DICE_SIGN : float = 0.9
-const DIE_TO_ADD : String = "6"
 const PLAYER_ENEMY_BASE_ID = 200
 
 # nodes and scripts
@@ -63,23 +60,18 @@ func get_enemy_by_id(id):
 		if enemy.id == id:
 			return enemy
 	return {}
-	
-func strengthten_enemies():
-	print("buff!")
-	for enemy in enemies:
-		if enemy.type != Global.ENEMY_TYPE.Player: #not adding dice to player
-			var die_to_add = DIE_TO_ADD
-			var use_enemy_type_for_die : bool = (randf() <= CHANCE_FOR_DICE_SIGN)
-			if use_enemy_type_for_die:
-				die_to_add = Global.get_stringsign_for_sign(enemy.type) + die_to_add
-			else:
-				var other_signs : Array = Global.DICE_SIGNS.duplicate().values()
-				other_signs.erase(enemy.type)
-				die_to_add = Global.get_stringsign_for_sign(other_signs[0] if randf() < 0.5 else other_signs[1]) + die_to_add
-			enemy.add_new_die(die_to_add)
-	pass
 
-func _on_EnemyTimer_minute_has_passed():
-	enemy_power += ENEMY_POWER_INCREMENT
-	strengthten_enemies()
-	pass # Replace with function body.
+func get_enemy_copy_by_id_and_strengthten(id, enemy_power):
+	var enemy_original = get_enemy_by_id(id)
+	var enemy_copy = ENEMY_OBJECT_SCRIPT.EnemyObject.new()
+	enemy_copy.set_values_by_copy(enemy_original)
+	if enemy_copy.type != Global.ENEMY_TYPE.Player:
+		enemy_copy.strengthten(enemy_power)
+	return enemy_copy
+
+func advance_phase(input_enemy):
+	for enemy in enemies:
+		if (enemy.id == input_enemy.id) and (enemy.type == Global.ENEMY_TYPE.Boss):
+			enemy.advance_phase()
+			return
+	pass

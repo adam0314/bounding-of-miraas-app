@@ -10,6 +10,8 @@ const MAXX_DIE_TO_ADD = 4
 # Vars
 
 var current_enemy = null
+# IMPORTANT: current enemy is a COPY of enemy from enemy_manager, not a reference!
+
 var player_dice_throws : Array
 var player_score : int
 var enemy_dice_throws : Array
@@ -33,8 +35,14 @@ func set_initial_values(val):
 	pass
 	
 func update_enemy(id):
-	current_enemy = enemy_manager.get_enemy_by_id(id)
+	var enemy_power : int = player_manager.enemy_power
+	current_enemy = enemy_manager.get_enemy_copy_by_id_and_strengthten(id, enemy_power)
 	fight_base_ui.ui_need_update_enemy = true
+	pass
+
+func update_enemy_to_power():
+	if current_enemy != null:
+		update_enemy(current_enemy.id)
 	pass
 
 func clear_enemy():
@@ -182,7 +190,7 @@ func fight():
 	if win:
 		# special case: if it was boss, update that bithh
 		if current_enemy.type == Global.ENEMY_TYPE.Boss:
-			current_enemy.advance_phase()
+			enemy_manager.advance_phase(current_enemy)
 		# if win, 60% chance of receiving random dice
 		var die_val = ""
 		if current_enemy.type == Global.ENEMY_TYPE.Normal:
@@ -200,7 +208,7 @@ func fight():
 			"win": true,
 			"has_item_19": player_manager.player_has_item(19),
 			"created_die": die_val,
-			"steal_item": true})
+			"steal_item": fighting_another_player})
 	else: # lose
 		# navigate to fight result tab
 		if not used_item_18:
@@ -210,9 +218,6 @@ func fight():
 			"win": false,
 			"has_item_18": used_item_18})
 		# lost
-	# Clear up after a fight and switch tabs
-	#fight_base_ui.get_parent().switch_tabs({"to_tab": "fight_result"})
-	#fight_base_ui.get_parent().switch_tabs({"to_tab": "player"})
 	clear_enemy()
 	fight_base_ui.clear_all_ui()
 	pass
