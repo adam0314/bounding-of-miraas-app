@@ -18,7 +18,7 @@
 [ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=16]
 [ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=17]
 
-[sub_resource type="StyleBoxTexture" id=3]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 4 )
 region_rect = Rect2( 48, 28, 466, 125 )
 expand_margin_left = 30.0
@@ -26,17 +26,17 @@ expand_margin_right = 30.0
 expand_margin_top = 15.0
 expand_margin_bottom = 10.0
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 20
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 70
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=4]
 size = 70
 use_filter = true
 font_data = ExtResource( 8 )
@@ -62,6 +62,7 @@ script = ExtResource( 1 )
 layer = 2
 
 [node name="PopupPanel" type="Panel" parent="CanvasLayer"]
+editor/display_folded = true
 visible = false
 self_modulate = Color( 1, 1, 1, 0.498039 )
 anchor_right = 1.0
@@ -128,7 +129,7 @@ margin_bottom = 20.0
 margin_left = 182.0
 margin_right = 297.0
 margin_bottom = 20.0
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "fsdfsdfdsfsdfsd"
@@ -179,7 +180,7 @@ margin_left = 35.0
 margin_top = 29.0
 margin_right = 46.0
 margin_bottom = 55.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 
@@ -210,7 +211,7 @@ margin_left = 44.0
 margin_right = 194.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 40, 0 )
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "00:00"
@@ -245,7 +246,7 @@ margin_bottom = 88.0
 [node name="EnemyPowerLabel" type="Label" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer/CenterContainer2"]
 margin_right = 72.0
 margin_bottom = 88.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "+0"
 
@@ -464,11 +465,10 @@ rect_min_size = Vector2( 0, 10 )
 [connection signal="confirmed" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/PopupPanel/PopupItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_PopupItem_popup_hide"]
 [connection signal="pressed" from="PlayerData/PlayerMainCont/PlayerHealthContainer/VBoxContainer/AddHpButton" to="." method="_on_AddHpButton_pressed"]
-[connection signal="time_has_passed" from="PlayerData/PanelTimer/HBoxContainer/CenterContainer/LabelTimer/EnemyPowerTimer" to="." method="_on_EnemyPowerTimer_time_has_passed"]
 [connection signal="pressed" from="PlayerData/PlayerDicesContainer/HBoxContainer/ButtonAddDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_ButtonAddDice_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonAddItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_ButtonAddItem_pressed"]
-[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="." method="_on_ButtonRemoveItem_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
+[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="." method="_on_ButtonRemoveItem_pressed"]
 [connection signal="item_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_item_selected"]
 [connection signal="nothing_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_nothing_selected"]
 [connection signal="pressed" from="PlayerData/NavButtonsCont/CenterContainer/ButtonFightEnemy" to="." method="_on_ButtonFightEnemy_pressed"]

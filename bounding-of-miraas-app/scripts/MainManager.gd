@@ -1,5 +1,7 @@
 extends TabContainer
 
+var first_player_id : int
+
 onready var player_node = $Player
 onready var fight_base_node = $FightBase
 onready var fight_result_node = $FightResult
@@ -11,6 +13,8 @@ onready var fight_manager = get_tree().get_nodes_in_group("fight_manager")[0]
 onready var PLAYER_MANAGER_SCRIPT = preload("res://scripts/PlayerManager.gd")
 onready var player_1_manager = PLAYER_MANAGER_SCRIPT.PlayerManager.new()
 onready var player_2_manager = PLAYER_MANAGER_SCRIPT.PlayerManager.new()
+
+onready var start_popup = get_tree().get_nodes_in_group("start_popup")[0]
 
 const PLAYER_TAB_ID = 0
 const FIGHT_BASE_TAB_ID = 1
@@ -25,7 +29,7 @@ func _ready():
 	
 	player_1_manager.set_initial_values(
 	{
-		"player_id": 1,
+		"player_id": Global.PLAYER_1_ID,
 		"player_name": "Smutny gracz",
 		"next_player_manager": player_2_manager,
 		"player_ui_node": player_node,
@@ -34,7 +38,7 @@ func _ready():
 		})
 	player_2_manager.set_initial_values(
 	{
-		"player_id": 2,
+		"player_id": Global.PLAYER_2_ID,
 		"player_name": "Wesoly gracz",
 		"next_player_manager": player_1_manager,
 		"player_ui_node": player_node,
@@ -50,12 +54,20 @@ func _ready():
 		"fight_result_ui_node": fight_result_node,
 		"enemy_manager": enemy_manager
 		})
-		
-	init_game(player_1_manager, player_2_manager)
-	pass 
+	
+	start_popup.popup()
+	yield(start_popup, "player_chosen")
+	if first_player_id == Global.PLAYER_1_ID:
+		init_game(player_1_manager, player_2_manager)
+	elif first_player_id == Global.PLAYER_2_ID:
+		init_game(player_2_manager, player_1_manager)
+	else:
+		Global.yeet("Wrong player chosen, what the fuck")
+	pass
 
 func init_game(first_player, second_player):
 	switch_players(second_player, first_player)
+	player_node.init_and_start_timer()
 	pass
 
 func switch_tabs(val):
@@ -84,3 +96,8 @@ func switch_players(this_player_manager, next_player_manager):
 	fight_manager.clear_enemy()
 	fight_base_node.clear_all_ui()
 	pass
+
+
+func _on_StartPopup_setup_player(player_id):
+	first_player_id = player_id
+	pass # Replace with function body.

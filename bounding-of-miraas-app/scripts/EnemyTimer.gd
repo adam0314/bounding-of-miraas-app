@@ -11,12 +11,16 @@ var enemy_power : int = 0
 signal time_has_passed()
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+#func _ready():
+#
+#	pass # Replace with function body.
+
+func init_and_start_timer():
 	self.connect("timeout", self, "_timeout")
 	self.wait_time = 1
 	self.start()
 	update_counter()
-	pass # Replace with function body.
+	pass
 
 func _timeout():
 	countdown -= 1

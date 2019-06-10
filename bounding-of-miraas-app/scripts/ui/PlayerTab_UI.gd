@@ -16,16 +16,17 @@ onready var dice_ui : ItemList = find_node("DirectDiceContainer")
 onready var items_ui : ItemList = find_node("DirectItemContainer")
 onready var enemy_power_ui : Label = find_node("EnemyPowerLabel")
 onready var enemy_power_timer : Timer = find_node("EnemyPowerTimer")
-		
+
 func _process(delta):
-	if ui_needs_update_dice:
-		ui_update_dice()
-	if ui_needs_update_items:
-		ui_update_items()
-	if ui_needs_update_hp:
-		ui_update_hp()
-	if ui_needs_update_enemy_power:
-		ui_update_enemy_power()
+	if current_player_manager != null:
+		if ui_needs_update_dice:
+			ui_update_dice()
+		if ui_needs_update_items:
+			ui_update_items()
+		if ui_needs_update_hp:
+			ui_update_hp()
+		if ui_needs_update_enemy_power:
+			ui_update_enemy_power()
 	pass
 
 func update_all_data():
@@ -91,6 +92,10 @@ func ui_has_item(item) -> bool:
 
 func ui_update_hp():
 	hp_ui.text = str(current_player_manager.hp)
+	pass
+
+func init_and_start_timer():
+	enemy_power_timer.init_and_start_timer()
 	pass
 
 func _on_PopupItem_popup_add_new_item(item_id):

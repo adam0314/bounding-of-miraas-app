@@ -12,6 +12,9 @@ enum ITEM_TYPES {
 	Dice
 	}
 	
+const PLAYER_1_ID : int = 1
+const PLAYER_2_ID : int = 2
+	
 const DEFAULT_TEXTURE = preload("res://icon.png")
 	
 const COLOR_ORANGE = Color(255, 165, 0, 1)
@@ -290,4 +293,9 @@ func get_enemy_for_id(item_id : int) -> Dictionary:
 		if enemy["id"] == item_id:
 			return enemy
 	return {} # TODO: should throw an error
+	pass
+
+func yeet(msg: String):
+	printerr(msg)
+	get_tree().quit()
 	pass

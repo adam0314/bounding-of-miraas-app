@@ -191,13 +191,8 @@ func fight():
 		# special case: if it was boss, update that bithh
 		if current_enemy.type == Global.ENEMY_TYPE.Boss:
 			enemy_manager.advance_phase(current_enemy)
-		# if win, 60% chance of receiving random dice
-		var die_val = ""
-		if current_enemy.type == Global.ENEMY_TYPE.Normal:
-			# only normal enemies drop dice
-			if randf() <= WIN_DIE_CREATE_CHANCE:
-				die_val = ["", "-", "+"][randi() % 3] + str((randi() % (MAXX_DIE_TO_ADD - 1)) + 2)
-				player_manager.add_new_die(die_val)
+		# if win, 30% chance of receiving random dice
+		var die_data = roll_for_die_and_add()
 		
 		# if fighting player, he lowers hp by 1
 		if current_enemy.type == Global.ENEMY_TYPE.Player and (not other_player_used_item_18):
@@ -207,7 +202,7 @@ func fight():
 			"to_tab": "fight_result",
 			"win": true,
 			"has_item_19": player_manager.player_has_item(19),
-			"created_die": die_val,
+			"created_die": die_data,
 			"steal_item": fighting_another_player})
 	else: # lose
 		# navigate to fight result tab
@@ -221,6 +216,22 @@ func fight():
 	clear_enemy()
 	fight_base_ui.clear_all_ui()
 	pass
+
+func roll_for_die_and_add() -> String:
+	# rolls for a die and adds to player
+	# die has values between 2 and MAX_DIE_TO_ADD
+	var die_data = ""
+	if current_enemy.type == Global.ENEMY_TYPE.Normal:
+		# only normal enemies drop dice
+		if randf() <= WIN_DIE_CREATE_CHANCE:
+			var siggnn = ["", "-", "+"][randi() % 3]
+			randomize()
+			var max_die_to_add = MAXX_DIE_TO_ADD - 1
+			var die_value_randomized = randi() % max_die_to_add
+			var die_value = str(die_value_randomized + 2)
+			die_data = siggnn + die_value 
+			player_manager.add_new_die(die_data)
+	return die_data
 
 func get_throw_sum(throws) -> int:
 	var sum = 0
