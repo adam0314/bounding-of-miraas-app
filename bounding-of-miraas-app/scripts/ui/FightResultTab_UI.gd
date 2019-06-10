@@ -12,6 +12,7 @@ var can_steal_item : bool = false
 
 onready var tab_result : TabContainer = find_node("TabResultCont")
 onready var loot_list : ItemList = find_node("LootList")
+onready var ui_item_19 : CenterContainer = find_node("item19labelcont")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,7 +20,9 @@ func _ready():
 
 func setup(val: Dictionary):
 	loot_list.clear()
+	ui_item_19.visible = false
 	if val["win"] == true:
+		# win
 		tab_result.current_tab = WIN_TAB
 		if val["has_item_19"] == true:
 			add_to_loot_list({
@@ -37,9 +40,13 @@ func setup(val: Dictionary):
 				add_to_loot_list({
 					"what": "item",
 					"value": item})
-		
 	else:
+		# loss
 		tab_result.current_tab = LOSE_TAB
+		if val.has("has_item_18"):
+			if val["has_item_18"] == true:
+				# no health lost
+				ui_item_19.visible = true
 	pass
 
 func add_to_loot_list(item):

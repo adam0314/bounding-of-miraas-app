@@ -17,6 +17,10 @@ onready var items_ui : ItemList = find_node("DirectItemContainer")
 onready var enemy_power_ui : Label = find_node("EnemyPowerLabel")
 onready var enemy_power_timer : Timer = find_node("EnemyPowerTimer")
 
+func _ready():
+	get_node("CanvasLayer/PopupPanel").visible = false
+	pass
+
 func _process(delta):
 	if current_player_manager != null:
 		if ui_needs_update_dice:
@@ -137,3 +141,11 @@ func _on_AddHpButton_pressed():
 func _on_EnemyPowerTimer_time_has_passed():
 	current_player_manager.increment_enemy_power()
 	pass # Replace with function body.
+
+# DEBUG DEBUG DEBUG
+
+func _input(event):
+	if Input.is_action_just_pressed("debug"):
+		var button_add_dice = find_node("ButtonAddDice")
+		button_add_dice.visible = true
+	pass

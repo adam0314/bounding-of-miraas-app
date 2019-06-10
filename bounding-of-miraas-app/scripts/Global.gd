@@ -21,7 +21,7 @@ const COLOR_ORANGE = Color(255, 165, 0, 1)
 const COLOR_BLUE = Color(0, 0, 255, 1)
 const COLOR_GRAY = Color(128, 128, 128, 1)
 
-const ENEMY_POWER_TIMEOUT = 120
+const ENEMY_POWER_TIMEOUT : int = 120
 
 func get_color_for_sign(signn) -> Color:
 	match signn:
@@ -187,13 +187,15 @@ const ITEMS_LIST = [
 	"id": 20,
 	"name" : "Wytrych",
 	"effect" : "Dziala jak klucz",
-	"type": ITEM_TYPES.Consumable
+	"type": ITEM_TYPES.Consumable,
+	"usable_in_fight": false
 	},
 {
 	"id": 21,
 	"name" : "Plaster",
 	"effect" : "Przywraca 1 HP",
-	"type": ITEM_TYPES.Consumable
+	"type": ITEM_TYPES.Consumable,
+	"usable_in_fight": false
 	}
 ]	
 

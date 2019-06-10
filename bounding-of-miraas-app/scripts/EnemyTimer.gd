@@ -4,7 +4,7 @@ extends Timer
 # var a = 2
 # var b = "text"
 
-const TIMEOUT : int = Global.ENEMY_POWER_TIMEOUT # 2 minutes by default
+var TIMEOUT : int = Global.ENEMY_POWER_TIMEOUT # 2 minutes by default
 onready var timer_label = get_parent()
 var countdown : int = TIMEOUT
 var enemy_power : int = 0

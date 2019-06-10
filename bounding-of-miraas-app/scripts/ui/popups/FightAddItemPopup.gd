@@ -16,7 +16,7 @@ func setup_everything(player_manager):
 	player_manager_using_item = player_manager
 	var items = []
 	for item in player_manager.items:
-		if item.type == Global.ITEM_TYPES.Consumable:
+		if item.type == Global.ITEM_TYPES.Consumable and item.usable_in_fight:
 			items.append(item)
 	if ui_items == null:
 		ui_items = find_node("ItemList")

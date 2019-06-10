@@ -25,6 +25,42 @@ const TEX_PLAYER_2 = preload("res://textures/ui/Player2.png")
 const TEX_PLAYER_1_small = preload("res://textures/ui/player1_64x64.png")
 const TEX_PLAYER_2_small = preload("res://textures/ui/player2_64x64.png")
 
+const TEX_HEART_EMPTY = preload("res://textures/ui/Heart contour.png")
+const TEX_HEART_NEGATIVE = preload("res://textures/ui/Heart blue.png")
+const TEX_HEART_NEUTRAL = preload("res://textures/ui/Heart .png")
+const TEX_HEART_POSITIVE = preload("res://textures/ui/Heart orange.png")
+
+const TEX_ALLOWED_DICE = [
+preload("res://textures/ui/allowed_dice/Col 2.png"),
+preload("res://textures/ui/allowed_dice/Col 1.png"),
+preload("res://textures/ui/allowed_dice/Col 12.png"),
+preload("res://textures/ui/allowed_dice/Col 3.png"),
+preload("res://textures/ui/allowed_dice/Col 23.png"),
+preload("res://textures/ui/allowed_dice/Col 13.png"),
+preload("res://textures/ui/allowed_dice/Col 123.png")
+]
+
+func get_allowed_dice_for_signs(signs : Array):
+	var idx : int = -1
+	if signs.find(Global.DICE_SIGNS.Negative) > -1:
+		idx += 4
+	if signs.find(Global.DICE_SIGNS.Neutral) > -1:
+		idx += 2
+	if signs.find(Global.DICE_SIGNS.Positive) > -1:
+		idx += 1
+	return TEX_ALLOWED_DICE[idx]
+	pass
+
+func get_heart_tex_for_sign(signn):
+	match signn:
+		Global.DICE_SIGNS.Negative:
+			return TEX_HEART_NEGATIVE
+		Global.DICE_SIGNS.Neutral:
+			return TEX_HEART_NEUTRAL
+		Global.DICE_SIGNS.Positive:
+			return TEX_HEART_POSITIVE
+	pass
+
 func get_tex_for_item_type(type):
 	match type:
 		Global.ITEM_TYPES.Dice:

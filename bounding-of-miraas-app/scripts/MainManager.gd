@@ -55,7 +55,7 @@ func _ready():
 		"enemy_manager": enemy_manager
 		})
 	
-	start_popup.popup()
+	start_popup.popup_and_make_bg_visible()
 	yield(start_popup, "player_chosen")
 	if first_player_id == Global.PLAYER_1_ID:
 		init_game(player_1_manager, player_2_manager)
@@ -97,7 +97,14 @@ func switch_players(this_player_manager, next_player_manager):
 	fight_base_node.clear_all_ui()
 	pass
 
+func stop_enemy_timer():
+	player_node.enemy_power_timer.stop()
+	pass
+
+func start_enemy_timer():
+	player_node.enemy_power_timer.start()
+	pass
 
 func _on_StartPopup_setup_player(player_id):
 	first_player_id = player_id
-	pass # Replace with function body.
+	pass
