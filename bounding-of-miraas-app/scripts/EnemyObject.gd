@@ -2,8 +2,9 @@ class EnemyObject:
 	
 	const DICE_OBJECT_SCRIPT = preload("res://scripts/DiceObject.gd")
 	
-	const STR_DIE_TO_ADD : String = "6"
+	const STR_DIE_PER_ENEMY_POWER : int = 6
 	const STR_CHANCE_FOR_DICE_SIGN : float = 0.9
+	const STR_MAX_DIE_TO_ADD : int = 30
 	
 	var id : int
 	var signn : int
@@ -49,12 +50,12 @@ class EnemyObject:
 		dice.append(d)
 		pass
 	
-	func advance_phase():
+	func advance_phase(reset = false):
 		if type != Global.ENEMY_TYPE.Boss:
 			print("lol you shouldnt be here")
 			return
 		dice = []
-		phase += (phase + 1)
+		phase += 1
 		if phase == 2:
 			for die_val in Global.get_enemy_for_id(id)["dice_phase_2"]:
 				var d = DICE_OBJECT_SCRIPT.DiceObject.new()
@@ -65,18 +66,32 @@ class EnemyObject:
 				var d = DICE_OBJECT_SCRIPT.DiceObject.new()
 				d.set_values(die_val)
 				dice.append(d)
+		if reset:
+			phase = 1
+			dice = []
+			for die_val in Global.get_enemy_for_id(id)["dice"]:
+				var d = DICE_OBJECT_SCRIPT.DiceObject.new()
+				d.set_values(die_val)
+				dice.append(d)
 	
+	# Adds dice: at least a d2, and to a total value of enemy_power * 6
 	func strengthten(enemy_power : int):
+		if enemy_power == 0:
+			return
 		print("buff!")
-		for idx in range(enemy_power):
-			var die_to_add = STR_DIE_TO_ADD
+		var total_die_to_add = enemy_power * STR_DIE_PER_ENEMY_POWER
+		while total_die_to_add > 0:
+			var available_die_values = range(2, min(total_die_to_add + 1, STR_MAX_DIE_TO_ADD + 1), 2)
+			var die_to_add = available_die_values[randi() % available_die_values.size()]
+			total_die_to_add -= die_to_add
+			die_to_add = str(die_to_add)
 			var use_enemy_type_for_die : bool = (randf() <= STR_CHANCE_FOR_DICE_SIGN)
 			if use_enemy_type_for_die:
 				die_to_add = Global.get_stringsign_for_sign(signn) + die_to_add
 			else:
 				var other_signs : Array = Global.DICE_SIGNS.duplicate().values()
 				other_signs.erase(signn)
-				die_to_add = Global.get_stringsign_for_sign(other_signs[0] if randf() < 0.5 else other_signs[1]) + die_to_add
+				die_to_add = Global.get_stringsign_for_sign(other_signs[0] if (randi() % 2) == 1 else other_signs[1]) + die_to_add
 			add_new_die(die_to_add)
 		pass
 		

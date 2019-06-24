@@ -45,3 +45,9 @@ func _on_ButtonConfirmItems_pressed():
 		fight_base_ui_node.emit_signal("use_item_or_end_fight")
 		hide()
 	pass
+
+func _on_CenterContainer2_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			hide()
+	pass # Replace with function body.

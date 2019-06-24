@@ -54,6 +54,10 @@ func ui_update_enemy_power():
 
 func ui_update_player_tex():
 	player_tex.texture = TextureGlobal.get_tex_for_player_id(current_player_manager.player_id)
+	if current_player_manager.is_a_ghost:
+		player_tex.self_modulate = Color(1, 1, 1, 0.5)
+	else:
+		player_tex.self_modulate = Color(1, 1, 1, 1)
 	pass
 
 func ui_update_player_name():
@@ -132,6 +136,8 @@ func _on_ButtonRemoveItem_pressed():
 
 func _on_AddHpButton_pressed():
 	print("add hp")
+	if current_player_manager.is_a_ghost:
+		return
 	if current_player_manager.hp < 3:
 		current_player_manager.hp = current_player_manager.hp + 1
 		ui_needs_update_hp = true
@@ -145,7 +151,22 @@ func _on_EnemyPowerTimer_time_has_passed():
 # DEBUG DEBUG DEBUG
 
 func _input(event):
+	# toggle debug
 	if Input.is_action_just_pressed("debug"):
-		var button_add_dice = find_node("ButtonAddDice")
-		button_add_dice.visible = true
+		if not Global.debug:
+			find_node("ButtonAddDice").visible = true
+			Global.debug = true
+		else:
+			find_node("ButtonAddDice").visible = false
+			Global.debug = false
+		return
+	
+	if not Global.debug:
+		return
+		
+	if Input.is_action_just_pressed("key_minus"):
+		current_player_manager.lower_hp_by_1()
+	elif Input.is_action_just_pressed("key_plus"):
+		current_player_manager.hp += 1
+		ui_needs_update_hp = true
 	pass

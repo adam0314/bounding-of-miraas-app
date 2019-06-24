@@ -1,5 +1,7 @@
 extends Node
 
+var debug = false
+
 enum DICE_SIGNS {
 	Positive,
 	Neutral,

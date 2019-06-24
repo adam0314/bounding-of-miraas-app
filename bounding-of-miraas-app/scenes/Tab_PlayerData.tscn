@@ -18,7 +18,7 @@
 [ext_resource path="res://scripts/ui/buttons/ButtonRemoveItem.gd" type="Script" id=16]
 [ext_resource path="res://scripts/ui/Item_UI.gd" type="Script" id=17]
 
-[sub_resource type="StyleBoxTexture" id=8]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 4 )
 region_rect = Rect2( 29, 25, 526, 339 )
 expand_margin_left = 33.0
@@ -26,9 +26,9 @@ expand_margin_right = 23.0
 expand_margin_top = 42.0
 expand_margin_bottom = 56.0
 
-[sub_resource type="StyleBoxEmpty" id=9]
+[sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="StyleBoxTexture" id=1]
+[sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 8 )
 region_rect = Rect2( 48, 28, 466, 125 )
 expand_margin_left = 30.0
@@ -36,28 +36,28 @@ expand_margin_right = 30.0
 expand_margin_top = 15.0
 expand_margin_bottom = 10.0
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 20
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
 size = 70
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=6]
 size = 70
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="StyleBoxTexture" id=5]
+[sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 4 )
 region_rect = Rect2( 29, 25, 526, 339 )
 
-[sub_resource type="StyleBoxEmpty" id=6]
+[sub_resource type="StyleBoxEmpty" id=8]
 
-[sub_resource type="StyleBoxEmpty" id=7]
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [node name="Tab_PlayerData" type="Control"]
 anchor_right = 1.0
@@ -114,7 +114,7 @@ script = ExtResource( 3 )
 [node name="Panel" type="PanelContainer" parent="CanvasLayer/PopupPanel/PopupItem"]
 margin_right = 200.0
 margin_bottom = 298.0
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Vbox" type="VBoxContainer" parent="CanvasLayer/PopupPanel/PopupItem/Panel"]
 margin_right = 200.0
@@ -133,7 +133,7 @@ margin_top = 24.0
 margin_right = 200.0
 margin_bottom = 274.0
 rect_min_size = Vector2( 200, 250 )
-custom_styles/bg = SubResource( 9 )
+custom_styles/bg = SubResource( 2 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 same_column_width = true
@@ -159,7 +159,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Playername" type="CenterContainer" parent="PlayerData"]
-editor/display_folded = true
 margin_right = 480.0
 margin_bottom = 20.0
 
@@ -167,7 +166,7 @@ margin_bottom = 20.0
 margin_left = 182.0
 margin_right = 297.0
 margin_bottom = 20.0
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "fsdfsdfdsfsdfsd"
@@ -217,7 +216,7 @@ margin_left = 35.0
 margin_top = 29.0
 margin_right = 46.0
 margin_bottom = 55.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 valign = 2
@@ -257,7 +256,7 @@ margin_left = 44.0
 margin_right = 194.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 40, 0 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 0.607843, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "00:00"
@@ -292,7 +291,7 @@ margin_bottom = 88.0
 [node name="EnemyPowerLabel" type="Label" parent="PlayerData/PanelTimer/HBoxContainer/HBoxContainer/CenterContainer2"]
 margin_right = 72.0
 margin_bottom = 88.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "+0"
 
@@ -337,7 +336,7 @@ margin_right = 480.0
 margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerDiceContainer/PanelC"]
 margin_right = 480.0
@@ -360,7 +359,7 @@ margin_right = 380.0
 margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 6 )
+custom_styles/bg = SubResource( 8 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -424,7 +423,7 @@ margin_right = 480.0
 margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="MarginContainer" type="MarginContainer" parent="PlayerData/PlayerItemsContainer/PanelC2"]
 margin_right = 480.0
@@ -447,7 +446,7 @@ margin_right = 380.0
 margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 7 )
+custom_styles/bg = SubResource( 9 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -517,8 +516,8 @@ rect_min_size = Vector2( 0, 10 )
 [connection signal="time_has_passed" from="PlayerData/PanelTimer/HBoxContainer/CenterContainer/LabelTimer/EnemyPowerTimer" to="." method="_on_EnemyPowerTimer_time_has_passed"]
 [connection signal="pressed" from="PlayerData/PlayerDiceContainer/HBoxContainer/ButtonAddDice" to="CanvasLayer/PopupPanel/PopupDice" method="_on_ButtonAddDice_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonAddItem" to="CanvasLayer/PopupPanel/PopupItem" method="_on_ButtonAddItem_pressed"]
-[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
 [connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="." method="_on_ButtonRemoveItem_pressed"]
+[connection signal="pressed" from="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_ButtonRemoveItem_pressed"]
 [connection signal="item_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_item_selected"]
 [connection signal="nothing_selected" from="PlayerData/PlayerItemsContainer/PanelC2/MarginContainer/ScrollContainer/DirectItemContainer" to="PlayerData/PlayerItemsContainer/HBoxContainer/ButtonRemoveItem" method="_on_DirectItemContainer_nothing_selected"]
 [connection signal="pressed" from="PlayerData/NavButtonsCont/CenterContainer/ButtonFightEnemy" to="." method="_on_ButtonFightEnemy_pressed"]

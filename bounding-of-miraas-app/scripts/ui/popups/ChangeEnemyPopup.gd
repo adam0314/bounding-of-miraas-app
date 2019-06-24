@@ -32,3 +32,13 @@ func _on_ButtonConfirm_pressed():
 		hide()
 		fight_base_ui_node.update_enemy(enemy_id)
 	pass # Replace with function body.
+	
+func _on_Panel_focus_exited():
+	hide()
+	pass # Replace with function body.
+
+func _on_CenterContainer_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			hide()
+	pass # Replace with function body.

@@ -21,7 +21,7 @@
 [ext_resource path="res://textures/ui/AddItem2.png" type="Texture" id=19]
 [ext_resource path="res://textures/checkmark.png" type="Texture" id=20]
 
-[sub_resource type="StyleBoxTexture" id=11]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 3 )
 region_rect = Rect2( 29, 25, 526, 339 )
 expand_margin_left = 33.0
@@ -29,9 +29,9 @@ expand_margin_right = 25.0
 expand_margin_top = 25.0
 expand_margin_bottom = 30.0
 
-[sub_resource type="StyleBoxEmpty" id=12]
+[sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="StyleBoxTexture" id=13]
+[sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 3 )
 region_rect = Rect2( 29, 25, 526, 339 )
 expand_margin_left = 35.0
@@ -39,9 +39,9 @@ expand_margin_right = 30.0
 expand_margin_top = 30.0
 expand_margin_bottom = 35.0
 
-[sub_resource type="StyleBoxEmpty" id=14]
+[sub_resource type="StyleBoxEmpty" id=4]
 
-[sub_resource type="StyleBoxTexture" id=1]
+[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 589, 384 )
 expand_margin_left = 47.0
@@ -49,34 +49,34 @@ expand_margin_right = 38.0
 expand_margin_top = 29.0
 expand_margin_bottom = 35.0
 
-[sub_resource type="StyleBoxEmpty" id=2]
-
-[sub_resource type="StyleBoxEmpty" id=3]
-
-[sub_resource type="StyleBoxEmpty" id=4]
-
-[sub_resource type="StyleBoxTexture" id=5]
-texture = ExtResource( 3 )
-region_rect = Rect2( 29, 25, 526, 339 )
-
 [sub_resource type="StyleBoxEmpty" id=6]
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxTexture" id=9]
 texture = ExtResource( 3 )
 region_rect = Rect2( 29, 25, 526, 339 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 3 )
+region_rect = Rect2( 29, 25, 526, 339 )
+
+[sub_resource type="DynamicFont" id=12]
 size = 28
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 15 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=13]
 size = 20
 use_filter = true
 font_data = ExtResource( 15 )
 
-[sub_resource type="StyleBoxTexture" id=10]
+[sub_resource type="StyleBoxTexture" id=14]
 texture = ExtResource( 3 )
 region_rect = Rect2( 29, 25, 526, 339 )
 
@@ -91,7 +91,6 @@ rect_scale = Vector2( 1, 0.92 )
 script = ExtResource( 1 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-editor/display_folded = true
 layer = 2
 
 [node name="PopupChangeEnemy" type="PopupPanel" parent="CanvasLayer"]
@@ -102,6 +101,7 @@ anchor_bottom = 1.0
 script = ExtResource( 2 )
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PopupChangeEnemy"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -110,11 +110,12 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Panel" type="PanelContainer" parent="CanvasLayer/PopupChangeEnemy/CenterContainer"]
+editor/display_folded = true
 margin_left = 236.0
 margin_top = 356.0
 margin_right = 236.0
 margin_bottom = 356.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PopupChangeEnemy/CenterContainer/Panel"]
 margin_right = 164.0
@@ -139,7 +140,7 @@ margin_right = 164.0
 margin_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 12 )
+custom_styles/bg = SubResource( 2 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 same_column_width = true
@@ -178,7 +179,7 @@ margin_left = 236.0
 margin_top = 356.0
 margin_right = 236.0
 margin_bottom = 356.0
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PopupAddItems/CenterContainer2/Panel"]
 margin_right = 144.0
@@ -203,7 +204,7 @@ margin_right = 144.0
 margin_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 14 )
+custom_styles/bg = SubResource( 4 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 select_mode = 1
@@ -232,7 +233,7 @@ size_flags_vertical = 3
 
 [node name="AnotherMainCont" type="VBoxContainer" parent="MainCont"]
 margin_right = 472.0
-margin_bottom = 920.0
+margin_bottom = 684.0
 
 [node name="DummyThiccCont3" type="MarginContainer" parent="MainCont/AnotherMainCont"]
 margin_right = 472.0
@@ -251,14 +252,12 @@ size_flags_horizontal = 3
 script = ExtResource( 8 )
 
 [node name="Pcont" type="PanelContainer" parent="MainCont/AnotherMainCont/EnemyDataCont/EnemyDataContainer"]
-editor/display_folded = true
 margin_left = 120.0
 margin_right = 352.0
 margin_bottom = 152.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 5 )
 
 [node name="Hbox" type="HBoxContainer" parent="MainCont/AnotherMainCont/EnemyDataCont/EnemyDataContainer/Pcont"]
-editor/display_folded = true
 margin_right = 232.0
 margin_bottom = 152.0
 
@@ -283,7 +282,6 @@ text = "Kliknij mnie!"
 align = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainCont/AnotherMainCont/EnemyDataCont/EnemyDataContainer/Pcont/Hbox"]
-editor/display_folded = true
 margin_left = 132.0
 margin_right = 232.0
 margin_bottom = 152.0
@@ -306,6 +304,7 @@ stretch_mode = 6
 margin_top = 75.0
 margin_right = 100.0
 margin_bottom = 152.0
+mouse_filter = 1
 size_flags_vertical = 3
 
 [node name="HeartTex" type="TextureRect" parent="MainCont/AnotherMainCont/EnemyDataCont/EnemyDataContainer/Pcont/Hbox/VBoxContainer/EnemyType"]
@@ -322,20 +321,21 @@ rect_min_size = Vector2( 0, 35 )
 [node name="FightTabCont" type="TabContainer" parent="MainCont/AnotherMainCont"]
 margin_top = 219.0
 margin_right = 472.0
-margin_bottom = 906.0
+margin_bottom = 670.0
 size_flags_vertical = 3
-custom_styles/tab_fg = SubResource( 2 )
-custom_styles/tab_bg = SubResource( 3 )
-custom_styles/panel = SubResource( 4 )
+custom_styles/tab_fg = SubResource( 6 )
+custom_styles/tab_bg = SubResource( 7 )
+custom_styles/panel = SubResource( 8 )
 tabs_visible = false
 
 [node name="FightBaseTab" type="VBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="EnemyDiceCont" type="VBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightBaseTab"]
 margin_right = 472.0
-margin_bottom = 465.0
+margin_bottom = 229.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_vertical = 3
 
@@ -354,13 +354,13 @@ text = "Kosci wroga:"
 [node name="PanelContainer" type="PanelContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightBaseTab/EnemyDiceCont"]
 margin_top = 24.0
 margin_right = 472.0
-margin_bottom = 465.0
+margin_bottom = 229.0
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 9 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightBaseTab/EnemyDiceCont/PanelContainer"]
 margin_right = 472.0
-margin_bottom = 441.0
+margin_bottom = 205.0
 custom_constants/margin_right = 50
 custom_constants/margin_top = 30
 custom_constants/margin_left = 50
@@ -370,18 +370,18 @@ custom_constants/margin_bottom = 30
 margin_left = 50.0
 margin_top = 30.0
 margin_right = 422.0
-margin_bottom = 411.0
+margin_bottom = 175.0
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 6 )
+custom_styles/bg = SubResource( 10 )
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 max_columns = 5
 same_column_width = true
 
 [node name="ButtonsCont" type="HBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightBaseTab"]
-margin_top = 469.0
+margin_top = 233.0
 margin_right = 472.0
-margin_bottom = 687.0
+margin_bottom = 451.0
 rect_min_size = Vector2( 0, 30 )
 alignment = 1
 
@@ -413,15 +413,15 @@ texture_normal = ExtResource( 13 )
 texture_hover = ExtResource( 14 )
 
 [node name="FightApplyItems" type="VBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="PlayerThrows" type="PanelContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems"]
 margin_right = 472.0
 margin_bottom = 157.0
+mouse_filter = 1
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 11 )
 
 [node name="CenterC" type="CenterContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/PlayerThrows"]
 margin_right = 472.0
@@ -437,9 +437,8 @@ margin_bottom = 133.0
 margin_right = 300.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 300, 80 )
-custom_fonts/normal_font = SubResource( 8 )
+custom_fonts/normal_font = SubResource( 12 )
 bbcode_enabled = true
-scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/PlayerThrows/CenterC/VBoxContainer"]
 margin_top = 84.0
@@ -452,20 +451,22 @@ margin_left = 260.0
 margin_right = 300.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 40, 20 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="PlayerTexture" type="TextureRect" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/PlayerThrows"]
 margin_right = 472.0
 margin_bottom = 157.0
+mouse_filter = 2
 texture = ExtResource( 16 )
 
 [node name="EnemyThrows" type="PanelContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems"]
 margin_top = 161.0
 margin_right = 472.0
 margin_bottom = 318.0
+mouse_filter = 1
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 14 )
 
 [node name="CenterC2" type="CenterContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/EnemyThrows"]
 margin_right = 472.0
@@ -481,9 +482,9 @@ margin_bottom = 133.0
 margin_right = 300.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 300, 80 )
-custom_fonts/normal_font = SubResource( 8 )
+mouse_filter = 1
+custom_fonts/normal_font = SubResource( 12 )
 bbcode_enabled = true
-scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/EnemyThrows/CenterC2/VBoxContainer"]
 margin_top = 84.0
@@ -496,12 +497,13 @@ margin_left = 260.0
 margin_right = 300.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 40, 20 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="EnemyMiniTexture" type="TextureRect" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems/EnemyThrows"]
 margin_right = 472.0
 margin_bottom = 157.0
+mouse_filter = 2
 texture = ExtResource( 17 )
 
 [node name="ButtonsCont" type="HBoxContainer" parent="MainCont/AnotherMainCont/FightTabCont/FightApplyItems"]
@@ -546,12 +548,13 @@ margin_bottom = 88.0
 texture_normal = ExtResource( 20 )
 
 [node name="DummyThiccCont2" type="MarginContainer" parent="MainCont/AnotherMainCont"]
-margin_top = 910.0
+margin_top = 674.0
 margin_right = 472.0
-margin_bottom = 920.0
+margin_bottom = 684.0
 rect_min_size = Vector2( 0, 10 )
-[connection signal="focus_exited" from="CanvasLayer/PopupChangeEnemy/CenterContainer/Panel/VBoxContainer/ScrollContainer/ItemList" to="CanvasLayer/PopupChangeEnemy" method="_on_ItemList_focus_exited"]
+[connection signal="gui_input" from="CanvasLayer/PopupChangeEnemy/CenterContainer" to="CanvasLayer/PopupChangeEnemy" method="_on_CenterContainer_gui_input"]
 [connection signal="pressed" from="CanvasLayer/PopupChangeEnemy/CenterContainer/Panel/VBoxContainer/ButtonConfirm" to="CanvasLayer/PopupChangeEnemy" method="_on_ButtonConfirm_pressed"]
+[connection signal="gui_input" from="CanvasLayer/PopupAddItems/CenterContainer2" to="CanvasLayer/PopupAddItems" method="_on_CenterContainer2_gui_input"]
 [connection signal="pressed" from="CanvasLayer/PopupAddItems/CenterContainer2/Panel/VBoxContainer/ButtonConfirmItems" to="CanvasLayer/PopupAddItems" method="_on_ButtonConfirmItems_pressed"]
 [connection signal="gui_input" from="MainCont/AnotherMainCont/EnemyDataCont/EnemyDataContainer/Pcont" to="." method="_on_Pcont_gui_input"]
 [connection signal="pressed" from="MainCont/AnotherMainCont/FightTabCont/FightBaseTab/ButtonsCont/CenterContainer2/ButtonFight" to="." method="_on_ButtonFight_pressed"]

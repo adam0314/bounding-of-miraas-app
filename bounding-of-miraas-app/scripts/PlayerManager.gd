@@ -5,8 +5,15 @@ class PlayerManager:
 		"6",
 		"6"
 		]
+	
+	const GHOST_DICE = [
+		"+25",
+		"-25",
+		"25"
+		]
 		
 	const INITIAL_HP : int = 3
+	const GHOST_HP : int = 1
 	
 	var player_id : int
 	var player_name : String
@@ -17,6 +24,7 @@ class PlayerManager:
 	var hp : int
 	var dice = []
 	var items = []
+	var is_a_ghost = false
 	
 	# Nodes
 	var fight_manager : Node
@@ -146,6 +154,8 @@ class PlayerManager:
 	
 	func lower_hp_by_1():
 		hp -= 1
+		if hp <= 0:
+			die()
 		pass
 	
 	func lower_hp_by_1_and_ui_update():
@@ -153,7 +163,42 @@ class PlayerManager:
 		player_ui_node.ui_needs_update_hp = true
 		pass
 	
+	func lower_hp_by_2_and_ui_update():
+		if hp == 1 and not is_a_ghost:
+			# Special case: If player is not a ghost yet, and has 1 hp,
+			# 2 damage turns him into ghost (he does not die twice)
+			ghostify()
+			return
+		lower_hp_by_1()
+		lower_hp_by_1()
+		player_ui_node.ui_needs_update_hp = true
+		pass
+	
 	func increment_enemy_power():
 		enemy_power += 1
 		player_ui_node.ui_needs_update_enemy_power = true
+		pass
+	
+	func die():
+		if not is_a_ghost:
+			ghostify()
+		else:
+			# todo
+			is_a_ghost = true
+			#Global.yeet("dead")
+		pass
+	
+	func ghostify():
+		is_a_ghost = true
+		for id in get_item_indexes():
+			remove_item_by_id(id)
+		dice = []
+		for d in GHOST_DICE:
+			add_new_die(d)
+		
+		hp = 1
+		player_name += " (duch)"
+		player_ui_node.ui_update_player_name()
+		player_ui_node.ui_update_player_tex()
+		player_ui_node.ui_needs_update_hp = true
 		pass

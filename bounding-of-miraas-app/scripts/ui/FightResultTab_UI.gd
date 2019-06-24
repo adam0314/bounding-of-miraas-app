@@ -9,6 +9,8 @@ const WIN_TAB = 1
 
 var fight_manager
 var can_steal_item : bool = false
+var item_stolen : bool = false
+var other_player_can_lose_hp : bool = false
 
 onready var tab_result : TabContainer = find_node("TabResultCont")
 onready var loot_list : ItemList = find_node("LootList")
@@ -21,6 +23,8 @@ func _ready():
 func setup(val: Dictionary):
 	loot_list.clear()
 	ui_item_19.visible = false
+	item_stolen = false
+	other_player_can_lose_hp = false
 	if val["win"] == true:
 		# win
 		tab_result.current_tab = WIN_TAB
@@ -33,13 +37,14 @@ func setup(val: Dictionary):
 			add_to_loot_list({
 				"what": "die",
 				"value": val["created_die"]})
-	if val.has("steal_item"):
-		if val["steal_item"] == true:
-			can_steal_item = true
-			for item in fight_manager.other_player_manager.items:
-				add_to_loot_list({
-					"what": "item",
-					"value": item})
+		if val.has("fighting_another_player"):
+			if val["fighting_another_player"] == true:
+				can_steal_item = true
+				for item in fight_manager.other_player_manager.items:
+					add_to_loot_list({
+						"what": "item",
+						"value": item})
+				other_player_can_lose_hp = val["other_player_can_lose_hp"]
 	else:
 		# loss
 		tab_result.current_tab = LOSE_TAB
@@ -47,6 +52,7 @@ func setup(val: Dictionary):
 			if val["has_item_18"] == true:
 				# no health lost
 				ui_item_19.visible = true
+		other_player_can_lose_hp = false
 	pass
 
 func add_to_loot_list(item):
@@ -73,6 +79,7 @@ func add_to_loot_list(item):
 	pass
 
 func ui_loot_list_clear_items():
+	# Clear items, only coins remain (if there are any)
 	var items_to_preserve = []
 	for idx in loot_list.get_item_count():
 		if loot_list.get_item_metadata(idx) == -1:
@@ -91,6 +98,8 @@ func ui_loot_list_clear_items():
 	pass
 
 func _on_BackButton_pressed():
+	if (not item_stolen) and other_player_can_lose_hp:
+		fight_manager.other_player_manager.lower_hp_by_1()
 	get_parent().switch_tabs({"to_tab": "player"})
 	pass # Replace with function body.
 
@@ -100,5 +109,6 @@ func _on_LootList_item_activated(index):
 		if item_id != -1:
 			fight_manager.other_player_manager.remove_item_by_id(item_id)
 			fight_manager.player_manager.add_new_item(item_id)
+			item_stolen = true
 			ui_loot_list_clear_items()
 	pass # Replace with function body.

@@ -75,3 +75,9 @@ func advance_phase(input_enemy):
 			enemy.advance_phase()
 			return
 	pass
+
+func clear_bosses_to_phase_1():
+	for enemy in enemies:
+		if enemy.type == Global.ENEMY_TYPE.Boss:
+			enemy.advance_phase(true)
+	pass

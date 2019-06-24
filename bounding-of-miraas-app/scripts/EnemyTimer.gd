@@ -32,7 +32,6 @@ func _timeout():
 	pass
 	
 func update_counter():
-	var textt = ""
 	var seconds : int = countdown % 60
 	var minutes : int = floor(float(countdown) / 60.0)
 	timer_label.text = str(minutes) + ":" + str(seconds).pad_zeros(2)

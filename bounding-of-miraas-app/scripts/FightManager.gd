@@ -18,6 +18,8 @@ var enemy_dice_throws : Array
 var enemy_score : int
 var selected_items_dicts : Array
 
+var end_level = false
+
 # Nodes
 var player_manager
 var other_player_manager
@@ -54,8 +56,8 @@ func add_selected_items_dict(dict):
 	pass
 
 func fight():
-	# for now only supports fighting normal enemies - not players
 	selected_items_dicts = []
+	end_level = false
 	
 	if current_enemy == null:
 		print("no enemy")
@@ -167,7 +169,7 @@ func fight():
 				else:
 					# other player
 					if dict["id"] == 17:
-						var after17 = apply_item_17(enemy_dice_throws, enemy_score)
+						var after17 = apply_item_17(enemy_dice_throws, enemy_score, true)
 						enemy_dice_throws = after17["throws"]
 						enemy_score = after17["score"]
 					if dict["id"] == 16:
@@ -190,24 +192,32 @@ func fight():
 	if win:
 		# special case: if it was boss, update that bithh
 		if current_enemy.type == Global.ENEMY_TYPE.Boss:
+			if current_enemy.phase == 3:
+				# todo: end current level
+				end_level = true
 			enemy_manager.advance_phase(current_enemy)
 		# if win, 30% chance of receiving random dice
 		var die_data = roll_for_die_and_add()
 		
-		# if fighting player, he lowers hp by 1
-		if current_enemy.type == Global.ENEMY_TYPE.Player and (not other_player_used_item_18):
-			other_player_manager.lower_hp_by_1()
+		# if fighting player, he lowers hp by 1 - ONLY if no item is taken
+		# This is handled in Fight result ui node
+		
 		# navigate to fight result tab
 		fight_base_ui.get_parent().switch_tabs({
 			"to_tab": "fight_result",
 			"win": true,
 			"has_item_19": player_manager.player_has_item(19),
 			"created_die": die_data,
-			"steal_item": fighting_another_player})
+			"fighting_another_player": fighting_another_player,
+			"other_player_can_lose_hp" : (not other_player_used_item_18)})
 	else: # lose
 		# navigate to fight result tab
 		if not used_item_18:
-			player_manager.lower_hp_by_1_and_ui_update()
+			if current_enemy.type == Global.ENEMY_TYPE.Boss:
+				# boss takes 2 hp
+				player_manager.lower_hp_by_2_and_ui_update()
+			else:
+				player_manager.lower_hp_by_1_and_ui_update()
 		fight_base_ui.get_parent().switch_tabs({
 			"to_tab": "fight_result",
 			"win": false,
@@ -215,6 +225,8 @@ func fight():
 		# lost
 	clear_enemy()
 	fight_base_ui.clear_all_ui()
+	if end_level:
+		get_tree().get_nodes_in_group("main")[0].end_level()
 	pass
 
 func roll_for_die_and_add() -> String:
@@ -275,12 +287,12 @@ func apply_item_16(score):
 	score = score * -1
 	return score
 
-func apply_item_17(throws, score):
+func apply_item_17(throws, score, use_other_player_manager = false):
 	# Simulate rolling one die
 	# Takes sign from enemy
 	throws = []
 	var sim_die_value : int = 0
-	for die in player_manager.dice:
+	for die in (other_player_manager.dice if use_other_player_manager else player_manager.dice):
 		sim_die_value += die.to_int_val()
 	var result = (randi() % sim_die_value) + 1
 	if current_enemy.signn == Global.DICE_SIGNS.Negative:

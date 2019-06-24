@@ -19,7 +19,7 @@
 [ext_resource path="res://scripts/ItemManager.gd" type="Script" id=17]
 [ext_resource path="res://scripts/FightManager.gd" type="Script" id=18]
 
-[sub_resource type="StyleBoxTexture" id=6]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 720, 1280 )
 
@@ -28,12 +28,12 @@ size = 40
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=3]
 size = 70
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxEmpty" id=5]
+[sub_resource type="StyleBoxEmpty" id=4]
 
 [node name="bounding-of-miraas-app" type="Node2D"]
 scale = Vector2( 7.56, 1.01088 )
@@ -63,7 +63,7 @@ layer = 2
 ]]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 1 )
 popup_exclusive = true
 script = ExtResource( 2 )
 
@@ -139,7 +139,7 @@ texture = ExtResource( 7 )
 margin_top = 68.0
 margin_right = 194.0
 margin_bottom = 156.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 3 )
 text = "Pauza"
 align = 1
 
@@ -163,7 +163,9 @@ text = "kontynuuj"
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="PanelLevel" parent="MainLayer/VBoxContainer" instance=ExtResource( 11 )]
+[node name="PanelLevel" parent="MainLayer/VBoxContainer" groups=[
+"top_panel",
+] instance=ExtResource( 11 )]
 
 [node name="MarginContainer" type="MarginContainer" parent="MainLayer/VBoxContainer"]
 margin_top = 84.0
@@ -179,7 +181,7 @@ __meta__ = {
 ]]
 margin_right = 480.0
 margin_bottom = 636.0
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 4 )
 tab_align = 0
 tabs_visible = false
 script = ExtResource( 12 )

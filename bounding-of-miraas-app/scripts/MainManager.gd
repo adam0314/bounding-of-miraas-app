@@ -1,8 +1,9 @@
 extends TabContainer
 
 var first_player_id : int
+var level : int = 1
 
-onready var player_node = $Player
+onready var player_ui_node = $Player
 onready var fight_base_node = $FightBase
 onready var fight_result_node = $FightResult
 
@@ -15,10 +16,13 @@ onready var player_1_manager = PLAYER_MANAGER_SCRIPT.PlayerManager.new()
 onready var player_2_manager = PLAYER_MANAGER_SCRIPT.PlayerManager.new()
 
 onready var start_popup = get_tree().get_nodes_in_group("start_popup")[0]
+onready var top_panel_ui = get_tree().get_nodes_in_group("top_panel")[0]
 
 const PLAYER_TAB_ID = 0
 const FIGHT_BASE_TAB_ID = 1
 const FIGHT_RESULT_TAB_ID = 2
+
+const ENEMY_POWER_PER_LEVEL_INC = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,7 +36,7 @@ func _ready():
 		"player_id": Global.PLAYER_1_ID,
 		"player_name": "Smutny gracz",
 		"next_player_manager": player_2_manager,
-		"player_ui_node": player_node,
+		"player_ui_node": player_ui_node,
 		"item_manager": item_manager,
 		"enemy_power" : 0
 		})
@@ -41,7 +45,7 @@ func _ready():
 		"player_id": Global.PLAYER_2_ID,
 		"player_name": "Wesoly gracz",
 		"next_player_manager": player_1_manager,
-		"player_ui_node": player_node,
+		"player_ui_node": player_ui_node,
 		"item_manager": item_manager,
 		"enemy_power" : 0
 		})
@@ -67,7 +71,7 @@ func _ready():
 
 func init_game(first_player, second_player):
 	switch_players(second_player, first_player)
-	player_node.init_and_start_timer()
+	player_ui_node.init_and_start_timer()
 	pass
 
 func switch_tabs(val):
@@ -85,8 +89,8 @@ func switch_tabs(val):
 
 func switch_players(this_player_manager, next_player_manager):
 	# swap them
-	player_node.current_player_manager = next_player_manager
-	player_node.update_all_data()
+	player_ui_node.current_player_manager = next_player_manager
+	player_ui_node.update_all_data()
 	
 	enemy_manager.remove_player_enemy()
 	enemy_manager.add_player_enemy(this_player_manager)
@@ -98,11 +102,23 @@ func switch_players(this_player_manager, next_player_manager):
 	pass
 
 func stop_enemy_timer():
-	player_node.enemy_power_timer.stop()
+	player_ui_node.enemy_power_timer.stop()
 	pass
 
 func start_enemy_timer():
-	player_node.enemy_power_timer.start()
+	player_ui_node.enemy_power_timer.start()
+	pass
+
+func end_level():
+	level += 1
+	if level > 3:
+		top_panel_ui.set_game_end()
+		return
+	player_1_manager.enemy_power += ENEMY_POWER_PER_LEVEL_INC
+	player_2_manager.enemy_power += ENEMY_POWER_PER_LEVEL_INC
+	top_panel_ui.set_level_number(level)
+	player_ui_node.ui_update_enemy_power()
+	enemy_manager.clear_bosses_to_phase_1()
 	pass
 
 func _on_StartPopup_setup_player(player_id):
