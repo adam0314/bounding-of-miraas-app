@@ -23,7 +23,8 @@ const COLOR_ORANGE = Color(255, 165, 0, 1)
 const COLOR_BLUE = Color(0, 0, 255, 1)
 const COLOR_GRAY = Color(128, 128, 128, 1)
 
-const ENEMY_POWER_TIMEOUT : int = 120
+const ENEMY_POWER_TIMEOUT : int = 210
+const ENEMY_DICE_CHANCE : float = 0.6
 
 func get_color_for_sign(signn) -> Color:
 	match signn:

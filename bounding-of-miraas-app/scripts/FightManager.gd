@@ -4,7 +4,7 @@ extends Node
 
 # Consts
 
-const WIN_DIE_CREATE_CHANCE = 0.3 # 30%
+var WIN_DIE_CREATE_CHANCE = Global.ENEMY_DICE_CHANCE
 const MAXX_DIE_TO_ADD = 4
 
 # Vars
